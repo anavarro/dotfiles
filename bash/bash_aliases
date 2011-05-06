@@ -1,23 +1,16 @@
 # lazy aliases
 alias ..='cd ..'
-alias ...='cd .. ; cd ..'
 alias ll='ls -hl'
 alias la='ls -a'
-alias lla='ls -lah'
 alias m='more'
 alias v='vim'
-alias untar='tar xvzf'
 alias h='history'
+alias df='df -h' 
 
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+alias grep='grep --color=auto --exclude-dir=\.svn'
 
 # Lists folders and files sizes in the current folder
 alias ducks='du -cksh * | sort -rn|head -11' 
-
-# Show disk usage
-alias df='df -h' 
 
 # Shows most used commands
 alias profileme="history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 20 | sort -nr"

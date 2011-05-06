@@ -40,7 +40,7 @@ bind "set bell-style none"
 complete -F _command source 
 complete -F _command .
 
-# append to the history file, don't overwrite it
+# append to the history file and don't overwrite it
 shopt -s histappend
 
 # Check the window size after each command and, if necessary,
