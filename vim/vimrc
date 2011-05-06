@@ -161,6 +161,9 @@ let g:AutoComplPop_BehaviorKeywordLength = 2
 
 set tags+=~/.vim/tags/stl
 
+" Alternative File 
+:map <F2> :A<CR>
+
 " Omni Completion
 autocmd FileType html :set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType python set omnifunc=pythoncomplete#Complete
