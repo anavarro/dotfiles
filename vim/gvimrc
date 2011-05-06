@@ -1,0 +1,18 @@
+" Author: Alvaro Navarro <alnacle@gmail.com>
+
+if has("gui_macvim")
+
+  set guifont=Monaco:h13
+  set guioptions-=T  " remove toolbar
+
+elseif has("gui_gtk2")
+
+  set guifont=Monaco
+  set guioptions-=T  " remove toolbar
+
+elseif has("x11")
+elseif has("gui_win32")
+end
+
+set anti            " Antialias font
+set gtl=%t gtt=%F   " Tab headings 
