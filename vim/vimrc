@@ -124,14 +124,12 @@ imap <down> <C-o>gj
 map E ge
 
 " Dealing with buffers
-map <Leader>qq :previous<CR>
-map <Leader>ww :next<CR>
-map <Leader>p <C-^> " Go to previous file
+noremap <leader>e <esc>:1,300 bd!<cr>:q!<cr>
+noremap <leader>b <esc>:BufExplorer<cr>
 
-" Moving next and previous error
-map <Leader>e :cp<CR>
-map <Leader>r :cn<CR>
-map <Leader>l :cl<CR>
+map W :bn<cr>
+map Q :bp<cr>
+map E <Esc><C-]><cr>
 
 " Map 'enter' to open the current file under cursor
 map <CR> gf
@@ -192,4 +190,5 @@ au BufEnter *.sh if getline(1) == "" | :call setline(1, "#!/bin/sh")
 
 " automatically give executable permissions if filename is *.sh
 au BufWritePost *.sh :!chmod a+x <afile>
+
 
