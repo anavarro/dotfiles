@@ -1,0 +1,3 @@
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+" autocmd FileType python runtime! autoload/pythoncomplete.vim
+
