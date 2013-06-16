@@ -1,12 +1,12 @@
 " Author: Alvaro Navarro <alnacle@gmail.com>
 " Date:   June 16th 2013
 
-" Load all bundles from directory
-execute pathogen#infect()
-
 " Some Linux distributions set filetype in general vimrc config
 filetype off
 filetype plugin indent off
+
+" Load all bundles from directory
+execute pathogen#infect()
 
 set rtp+=~/.vim/bundle/vundle/
 set runtimepath+=$GOROOT/misc/vim
