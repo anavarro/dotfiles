@@ -5,14 +5,11 @@
 filetype off
 filetype plugin indent off
 
-" Load all bundles from directory
-execute pathogen#infect()
-
 set rtp+=~/.vim/bundle/vundle/
 set runtimepath+=$GOROOT/misc/vim
 call vundle#rc()
 
-Bundle 'gmarik/vundle'
+" Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-pathogen'
 Bundle 'kevinw/pyflakes-vim'
