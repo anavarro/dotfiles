@@ -18,6 +18,7 @@ let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 set completeopt=menuone,menu,longest,preview
 
-" configure tags - add additional tags here or comment out not-used ones
-set tags+=~/.vim/tags/sdk
-set tags+=~/.vim/tags/stl_headers
+"for Syntastic
+let g:syntastic_enable_signs=1
+let g:syntastic_quiet_warnings=1
+
