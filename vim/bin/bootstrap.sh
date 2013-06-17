@@ -1,4 +1,8 @@
-#!/bin/sh
+#!/bin/bash
+# 
+# VIM Bundles bootstrapper
+#
+# Alvaro Navarro <alnacle@gmail.com>
 
 runcmd() {
    "$@"
@@ -9,12 +13,13 @@ runcmd() {
    fi
 }
 
-if [ -d bundle ]; then
-    echo "Cloning vundle..."
-    runcmd git clone https://github.com/gmarik/vundle.git bundle/vundle
-else
-    echo "Ops! Unable to find bundle directory"
+if [ ! -d bundle ]; then
+    runcmd mkdir bundle
 fi
 
+echo "Cloning vundle..."
+runcmd git clone https://github.com/gmarik/vundle.git bundle/vundle
+
+echo "Installing Bundles..."
 runcmd vim +BundleInstall +qall
 

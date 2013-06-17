@@ -1,4 +1,9 @@
 #!/bin/bash 
+# 
+# VIM Tag file Generator
+#
+# Alvaro Navarro <alnacle@gmail.com>
+
 
 cflags=`which ctags`
 
