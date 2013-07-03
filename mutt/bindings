@@ -1,0 +1,12 @@
+# Keyboard bindings for mutt 
+
+bind pager p previous-undeleted
+bind pager n next-undeleted
+bind index V collapse-thread
+bind attach <return> view-mailcap
+
+bind index <space> next-page
+bind index - previous-page
+bind pager <down> next-line
+bind pager <up> previous-line
+

@@ -1,0 +1,68 @@
+#
+# Color Definitions 
+#
+color attachment white magenta
+color body cyan black "ftp://[^ ]*"
+color body brightgreen black "[[:alnum:]][-+.#_[:alnum:]]*@[-+.[:alnum:]]*[[:alnum:]]"
+color bold green black
+color error red black
+
+color header red black "^from"
+color header green black "^from:"
+color header green black "^to:"
+color header green black "^cc:"
+color header green black "^date:"
+color header yellow black "^newsgroups:"
+color header yellow black "^reply-to:"
+color header red black "^subject:"
+color header red black "^x-spam-rule:"
+color header red black "^x-mailer:"
+color header red black "^message-id:"
+color header red black "^Organization:"
+color header red black "^Organisation:"
+color header magenta black "^User-Agent:"
+color header red black "^message-id: .*pine"
+color header yellow black "^X-Fnord:"
+color header yellow black "^X-WebTV-Stationery:"
+color header red black "^X-Message-Flag:"
+color header yellow black "^X-Spam-Status:"
+color header yellow black "^X-SpamProbe:"
+color header red black "^X-SpamProbe: SPAM"
+
+color indicator white blue
+color markers red black
+color message white blue
+
+#color normal brightwhite black # pager body
+
+# Coloring quoted text - coloring the first 7 levels:
+color quoted brightred black
+color quoted1 yellow black
+color quoted2 red black
+color quoted3 green black
+color quoted4 cyan black
+color quoted5 yellow black
+color quoted6 green black
+color quoted7 green black
+
+color signature green black
+color status white red
+color tilde blue black
+color tree brightmagenta black
+color underline yellow black
+color body yellow black "[;:]-[)/(|]" # colorise smileys
+color body yellow black "[;:][)/(|]"
+#color body brightblue black "(http|https|ftp|news|telnet|finger)://[^ ]*"
+color body brightblue black "\\b[^ ]+://[^ ]*"
+
+uncolor index *
+color index yellow black ~N # New
+color index yellow black ~O # Old
+color index cyan black '~s dragonfly ~f enlightenment-cvs'
+#color index brightgreen black '~p' # mail to myself
+color index brightcyan black '~P' # mail from myself
+color index magenta black ~F # Flagged
+color index blue black ~T # Tagged
+color index red black ~D # Deleted
+
+color index black yellow "~b text/calendar"

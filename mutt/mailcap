@@ -1,0 +1,23 @@
+text/html; w3m -I %{charset} -T text/html; copiousoutput;
+image/*; qiv %s;
+image/png; qiv %s;
+application/pdf; mupdf %s;
+application/msword; libreoffice '%s'; description="MS Word document";
+application/vnd.ms-excel; libreoffice '%s'; description="MS Excel sheet";
+application/vnd.ms-powerpoint; libreoffice '%s'; description="MS PowerPoint presentation";
+text/calendar; vcal2text; copiousoutput
+text/x-diff; cat; copiousoutput
+video/x-flic;/usr/bin/mplayer %s
+video/msvideo;/usr/bin/mplayer %s
+video/x-msvideo;/usr/bin/mplayer %s
+video/x-ms-asf;/usr/bin/mplayer %s
+video/x-ms-wmv;/usr/bin/mplayer %s
+video/x-ms-wma;/usr/bin/mplayer %s
+video/x-ms-asf-plugin;/usr/bin/mplayer %s
+video/x-ms-wvx;/usr/bin/mplayer %s
+video/x-ms-wax;/usr/bin/mplayer %s
+video/mkv;/usr/bin/mplayer %s
+video/mpeg;/usr/bin/mplayer %s
+video/x-mpeg;/usr/bin/mplayer %s
+video/quicktime;/usr/bin/mplayer %s
+video/x-quicktime;/usr/bin/mplayer %s

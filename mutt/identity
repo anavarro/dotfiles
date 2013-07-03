@@ -1,0 +1,19 @@
+
+# Incoming
+set mbox_type  = mbox
+set folder     = "~/Mail/" 
+set spoolfile  = "+Mailbox"
+set mbox       = "+Mailbox"
+set postponed  = "+drafts"
+set record     = "+sent"
+
+mailboxes `echo ~/Mail/*`
+
+# Outcoming
+set realname   =  "Alvaro Navarro"
+set from       =  "xx@xx.com"
+set sendmail   =  "/usr/bin/msmtp" 
+set use_from   =  yes
+
+alternates ""
+

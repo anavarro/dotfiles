@@ -1,0 +1,18 @@
+#
+# List of mailing lists I'm subscribed to.
+#
+
+unsubscribe *
+subscribe debian-arm@lists.debian.org
+subscribe debian-embedded@lists.debian.org
+subscribe debian-devel-announce@lists.debian.org
+subscribe dev@suckless.org
+subscribe misc@openbsd.org
+subscribe tech@openbsd.org
+subscribe ports@openbsd.org
+subscribe linux-ug@psi5.com
+subscribe python-es@python.org
+subscribe 9fans@9fans.net
+subscribe golang-nuts@googlegroups.com
+subscribe muenchen@lists.python-verband.org
+subscribe discussion@lists.en.qi-hardware.com
