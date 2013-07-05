@@ -1,5 +1,3 @@
-"autocmd FileType python set omnifunc=pythoncomplete#Complete
-
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 
 augroup vimrc_autocmds

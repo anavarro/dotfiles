@@ -1,5 +1,5 @@
 " Author: Alvaro Navarro <alnacle@gmail.com>
-" Date:   June 16th 2013
+" Date:   Juli 05th 2013
 
 " Some Linux distributions set filetype in general vimrc config
 filetype off
