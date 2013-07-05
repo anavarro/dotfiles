@@ -11,8 +11,6 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-pathogen'
-Bundle 'kevinw/pyflakes-vim'
 Bundle 'anavarro/minibufexpl'
 Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/nerdcommenter'
@@ -30,8 +28,11 @@ Bundle 'FuzzyFinder'
 Bundle 'a.vim'  
 Bundle 'CSApprox'
 Bundle 'OmniCppComplete'
-Bundle 'pythoncomplete'
 Bundle 'taglist.vim'
+Bundle 'ervandew/supertab'
+
+Bundle 'pythoncomplete'
+Bundle 'kevinw/pyflakes-vim'
 
 filetype plugin indent on
 
@@ -96,6 +97,7 @@ set laststatus=2      " always show the status line
 set vb t_vb=          " Turn off bell
 set showmode 
 set showcmd
+
 highlight clear SignColumn
 set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) 
 set statusline=%<%f
@@ -131,7 +133,9 @@ map <CR> gf
 " Omni Completion 
 autocmd FileType html   set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType xml    set omnifunc=xmlcomplete#CompleteTags
-autocmd FileType python set omnifunc=pythoncomplete#Complete
+
+" Tagbar 
+:noremap <Leader>t :TagbarToggle<CR>
 
 " NERDTree 
 :noremap <Leader>n :NERDTreeToggle<CR>
@@ -143,11 +147,7 @@ let b:match_ignorecase = 1
 map <Leader>b :FufFile<CR>
 let g:fuzzy_ignore = '.o;.obj;.bak;.exe;.pyc;.pyo;.DS_Store;.db'
 
-" autocomplpop ***************************************************************
 " complete option
-"set complete=.,w,b,u,t,k
-"let g:AutoComplPop_CompleteOption = '.,w,b,u,t,k'
-"set complete=.
 let g:AutoComplPop_IgnoreCaseOption = 0
 let g:AutoComplPop_BehaviorKeywordLength = 2
 
@@ -223,4 +223,9 @@ endif
 if filereadable(expand("~/.vim/vimrc_local"))
   source ~/.vim/vimrc_local
 endif
+
+" Folding
+set foldmethod=indent
+set foldlevel=99
+noremap t za
 
