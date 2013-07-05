@@ -13,7 +13,7 @@ Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-pathogen'
 Bundle 'kevinw/pyflakes-vim'
-Bundle 'fholgado/minibufexpl.vim'
+Bundle 'anavarro/minibufexpl'
 Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'Shougo/neocomplcache.vim'
@@ -209,8 +209,8 @@ nmap <F9> :SCCompile<cr>
 nmap <F10> :SCCompileRun<cr>
 
 colorscheme wombat
-highlight Normal guibg=black guifg=white
 set background=dark
+"highlight Normal guibg=black guifg=white
 
 if filereadable(expand("~/.vim/vimrc_cpp"))
   source ~/.vim/vimrc_cpp

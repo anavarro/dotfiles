@@ -1,0 +1,10 @@
+# macros for mutt
+
+macro pager "y" "<sync-mailbox><change-folder>?<toggle-mailboxes>"
+
+macro generic   ,<Space>    ":source ~/.mutt/muttrc\n" "Reload mutt's configuration file"
+macro editor    ";" \Ct         # while typing addresses after a m - ; for completing it
+macro pager = " |sed -e \"s/'//g\" | less\r"
+
+macro index     G           "!fetchmail\n"   "Invoke fetchmail"
+
