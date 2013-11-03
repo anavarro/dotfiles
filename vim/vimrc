@@ -19,7 +19,7 @@ Bundle 'mattn/zencoding-vim'
 Bundle 'jnwhiteh/vim-golang'
 Bundle 'tomtom/checksyntax_vim'
 Bundle 'plasticboy/vim-markdown'
-Bundle 'Raimondi/delimitMate'
+" Bundle 'Raimondi/delimitMate'
 Bundle 'majutsushi/tagbar'
 Bundle 'xuhdev/SingleCompile'
 Bundle 'terryma/vim-multiple-cursors'
@@ -228,4 +228,5 @@ endif
 set foldmethod=indent
 set foldlevel=99
 noremap t za
+match Error /\%81v.\+/
 

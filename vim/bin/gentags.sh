@@ -22,7 +22,7 @@ fi
 
 echo "\"WARNING: This is an automatically generated file. Do not modify!" >> ${vimcfg}
 
-for i in `cat ${tagdir}/*.list`;
+for i in $@;
 do
     if [ ! -d $i ]; then
         echo "No sources found in $i. Skipping..."
