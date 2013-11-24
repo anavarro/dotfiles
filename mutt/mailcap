@@ -1,12 +1,22 @@
 text/html; w3m -I %{charset} -T text/html; copiousoutput;
-image/*; qiv %s;
-image/png; qiv %s;
-application/pdf; mupdf %s;
-application/msword; libreoffice '%s'; description="MS Word document";
-application/vnd.ms-excel; libreoffice '%s'; description="MS Excel sheet";
-application/vnd.ms-powerpoint; libreoffice '%s'; description="MS PowerPoint presentation";
+text/plain; more %s; copiousoutput;
+text/xml; vim %s;
 text/calendar; vcal2text; copiousoutput
 text/x-diff; cat; copiousoutput
+image/bmp;  qiv %s;
+image/jpeg; qiv %s;
+image/jpg;  qiv %s;
+image/gif;  qiv %s;
+image/png;  qiv %s;
+image/tiff; qiv %s;
+application/pdf; mupdf %s;
+application/msword; libreoffice '%s'; description="MS Word document";
+application/vnd.openxm; libreoffice '%s'; description="MS document";
+application/vnd.ms-excel; libreoffice '%s'; description="MS Excel sheet";
+application/vnd.ms-powerpoint; libreoffice '%s'; description="MS PowerPoint presentation";
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; libreoffice '%s'; description="MS Excel Document";
+application/octet-stream; vim %s;
+application/pgp-signature; cat %s; copiousoutput
 video/x-flic;/usr/bin/mplayer %s
 video/msvideo;/usr/bin/mplayer %s
 video/x-msvideo;/usr/bin/mplayer %s

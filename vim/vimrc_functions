@@ -1,0 +1,20 @@
+function TrimWhiteSpace()
+  %s/\s*$//
+  ''
+endfunction
+
+function! Chomp(str)
+    return substitute(a:str, '\n$', '', '')
+endfunction
+
+function! DmenuOpen(cmd)
+    let fname = Chomp(system("find . | grep -vE 'svn|docs' | grep -E '.cpp$|.h$|.py$|Makefile' | dmenu -i -l 20 -p " . a:cmd))
+    if empty(fname)
+        return
+    endif
+    execute a:cmd . " " . fname
+endfunction
+
+map <c-t> :call DmenuOpen("tabe")<cr>
+map <c-f> :call DmenuOpen("e")<cr>
+

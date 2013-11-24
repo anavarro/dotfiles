@@ -1,7 +1,7 @@
-# 
+#
 # Mutt configuration
 #
-# Alvaro Navarro <anavarro@gsyc.es> 2006/2013
+# Alvaro Navarro <anavarro@achtung.es> 2006/2013
 #
 # External files to load
 
@@ -27,7 +27,7 @@ set reverse_alias = yes
 # Organizing
 set noconfirmappend
 
-# composing 
+# Composing 
 set allow_8bit=no
 set text_flowed=yes
 set fcc_attach
@@ -61,7 +61,7 @@ set pager_index_lines = 10
 set pager_context     = 10
 set pager_stop=yes
 set markers=no
-set implicit_autoview=yes
+#set implicit_autoview=yes
 set tilde
 set score=no
 
@@ -79,6 +79,8 @@ set sort_aux = 'last-date-received'
 
 set wait_key=no
 set write_inc=25        # show progress when writting the mailboxes
+set sleep_time=0
+set folder_format="%2C %t%N %f %> %8s %d "
 
 alternative_order text/plain text text/enriched text/html
 

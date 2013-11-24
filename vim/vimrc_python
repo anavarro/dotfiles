@@ -1,5 +1,3 @@
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-
 augroup vimrc_autocmds
     autocmd!
     " highlight characters past column 120
@@ -7,5 +5,4 @@ augroup vimrc_autocmds
     autocmd FileType python match Excess /\%120v.*/
     autocmd FileType python set nowrap
 augroup END
-
 

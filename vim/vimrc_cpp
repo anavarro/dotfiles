@@ -1,6 +1,4 @@
 " Filetype
-autocmd FileType c set omnifunc=ccomplete#Complete
-autocmd FileType c set comments=sl:/*,mb:\ *,elx:\ */
 au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
 
 " OmniCppComplete

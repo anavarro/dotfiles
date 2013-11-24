@@ -132,6 +132,10 @@ map <CR> gf
 " Omni Completion 
 autocmd FileType html   set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType xml    set omnifunc=xmlcomplete#CompleteTags
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType c      set omnifunc=ccomplete#Complete
+autocmd FileType c      set comments=sl:/*,mb:\ *,elx:\ */
+autocmd FileType mail   setlocal fo+=aw
 
 " Tagbar 
 :noremap <Leader>t :TagbarToggle<CR>
@@ -207,7 +211,6 @@ nmap <F10> :SCCompileRun<cr>
 
 colorscheme wombat
 set background=dark
-"highlight Normal guibg=black guifg=white
 
 if filereadable(expand("~/.vim/vimrc_cpp"))
   source ~/.vim/vimrc_cpp
@@ -217,13 +220,11 @@ if filereadable(expand("~/.vim/vimrc_python"))
   source ~/.vim/vimrc_python
 endif
 
+if filereadable(expand("~/.vim/vimrc_functions"))
+  source ~/.vim/vimrc_functions
+endif
+
 if filereadable(expand("~/.vim/vimrc_local"))
   source ~/.vim/vimrc_local
 endif
-
-" Folding
-set foldmethod=indent
-set foldlevel=99
-noremap t za
-match Error /\%81v.\+/
 
