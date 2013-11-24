@@ -1,12 +1,3 @@
-# Starting a new shell (login and no-login) in Darwin, comprises:
-#    profile
-#    bash_profile
-
-# Starting a new login shell under GNU/Linux:
-#    bash_profile
-
-# Starting a new interactive no-login shell under GNU/Linux:
-#    bashrc
 
 if [ -f ~/.bashrc ]; then
     source ~/.bashrc

@@ -19,13 +19,13 @@ hf()
 prompt_func() 
 {
     previous_return_value=$?;
-    prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_NC}\] "
+    prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]\[${COLOR_NC}\] "
 
     if test $previous_return_value -eq 0
     then
         PS1="${prompt}> "
     else
         PS1="${prompt}\[${COLOR_RED}\]> \[${COLOR_NC}\]"
-    fi  
+    fi
 }
 

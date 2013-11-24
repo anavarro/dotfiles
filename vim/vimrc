@@ -1,12 +1,11 @@
-" Author: Alvaro Navarro <alnacle@gmail.com>
-" Date:   Juli 05th 2013
+" Author: Alvaro Navarro <anavarro@achtung.es>
+" Date:   November 20th 2013
 
 " Some Linux distributions set filetype in general vimrc config
 filetype off
 filetype plugin indent off
 
 set rtp+=~/.vim/bundle/vundle/
-set runtimepath+=$GOROOT/misc/vim
 call vundle#rc()
 
 Bundle 'gmarik/vundle'
@@ -111,7 +110,7 @@ set sessionoptions=blank,buffers,curdir,folds,help,resize,tabpages,winsize
 
 " Invisible characters 
 set listchars=trail:.,tab:>-,eol:$
-set listchars+=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+"set listchars+=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 set nolist
 
 set backspace=indent,eol,start
@@ -176,11 +175,9 @@ map f :cn<CR>
 noremap W :bn<cr>
 noremap Q :bp<cr>
 noremap D :bd!<cr>
-noremap <C-f> <esc>:silent execute "grep! -R " . shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
 noremap E <esc><C-]><cr>
 
 map <F2> :A<CR>
-map <F12> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 imap <c-space> <c-x><c-o>
 cmap w!! %!sudo tee > /dev/null %
 

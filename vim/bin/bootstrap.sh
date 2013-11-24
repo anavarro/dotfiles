@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 # 
 # VIM Bundles bootstrapper
 #
-# Alvaro Navarro <alnacle@gmail.com>
+# Alvaro Navarro <anavarro@achtung.es>
 
 set -e
 
