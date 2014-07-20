@@ -2,6 +2,7 @@
 " Date:   Juli 03th 2014
 
 " Setting up the vim plugin bundler
+" Kudos go to Juan Pedro Fisanotti (@fisadev) for the idea
 let iCanHazVundle=1
 let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
 if !filereadable(vundle_readme)
@@ -28,7 +29,8 @@ Bundle 'scrooloose/nerdcommenter'
 " Former Zen coding plugin
 Bundle 'mattn/emmet-vim'
 " Manage buffers the way it should be
-Bundle 'techlivezheng/vim-plugin-minibufexpl'
+Bundle 'anavarro/minibufexpl'
+"Bundle 'techlivezheng/vim-plugin-minibufexpl'
 " Fast and responsive way to manage files and buffers
 Bundle 'sjbach/lusty'
 " Run commands whithin a buffer
