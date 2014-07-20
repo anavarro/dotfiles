@@ -28,7 +28,13 @@ set reverse_alias = yes
 set noconfirmappend
 
 # Composing 
+set charset="utf-8"
+set config_charset="utf-8"
+set assumed_charset="utf-8:iso-8859-15:us-ascii"
+#set send_charset="us-ascii:iso-8859-15:iso-8859-15:utf-8"
+
 set allow_8bit=no
+set allow_ansi=yes
 set text_flowed=yes
 set fcc_attach
 set attribution="%d, %n wrote:"
@@ -76,11 +82,13 @@ set status_on_top        # status bar on top.
 
 set sort     = 'threads'
 set sort_aux = 'last-date-received'
+set strict_threads
 
 set wait_key=no
 set write_inc=25        # show progress when writting the mailboxes
 set sleep_time=0
 set folder_format="%2C %t%N %f %> %8s %d "
+set index_format="%4C %Z %[!%b %d %Y] %-17.17F (%3l) %s"
 
 alternative_order text/plain text text/enriched text/html
 

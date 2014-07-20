@@ -2,8 +2,8 @@
 # Incoming
 set mbox_type  = mbox
 set folder     = "~/Mail/" 
-set spoolfile  = "+Mailbox"
-set mbox       = "+Mailbox"
+set spoolfile  = "+mailbox"
+set mbox       = "+mailbox"
 set postponed  = "+drafts"
 set record     = "+sent"
 
