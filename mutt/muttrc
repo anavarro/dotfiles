@@ -1,9 +1,7 @@
 #
 # Mutt configuration
 #
-# Alvaro Navarro <anavarro@achtung.es> 2006/2013
-#
-# External files to load
+# Alvaro Navarro <anavarro@achtung.es> 2006/2015
 
 source ~/.mutt/colors
 source ~/.mutt/macros
@@ -11,13 +9,12 @@ source ~/.mutt/bindings
 source ~/.mutt/aliases
 source ~/.mutt/auto_views
 source ~/.mutt/subscriptions
-source ~/.mutt/identity
 
 set alias_file       =~/.mutt/aliases
 set mailcap_path     =~/.mutt/mailcap
 set header_cache     =~/.mutt/hcache
 set message_cachedir =~/.mutt/cache/bodies
-set certificate_file =~/.mutt/certificates 
+set certificate_file =~/.mutt/certificates
 set signature        =~/.mutt/signature
 
 # Contats
@@ -31,22 +28,22 @@ set noconfirmappend
 set charset="utf-8"
 set config_charset="utf-8"
 set assumed_charset="utf-8:iso-8859-15:us-ascii"
-#set send_charset="us-ascii:iso-8859-15:iso-8859-15:utf-8"
 
 set allow_8bit=no
 set allow_ansi=yes
 set text_flowed=yes
 set fcc_attach
 set attribution="%d, %n wrote:"
+set use_from= yes
 set include=yes
-set move=no                         # don't move messages from my inbox
+set move=no
 set delete=yes
 set editor="vim +':set textwidth=77' +':set wrap' +\`awk '/^$/ {print i+2; exit} {i++}' %s\` %s"
 set date_format="%A, %d.%m.%y at %H:%M"
 set edit_headers
 set abort_nosubject=no
 set abort_unmodified=no
-set bounce_delivered=no            # do not remove Delivered-To: when bouncing
+set bounce_delivered=no
 set metoo=no
 set reply_self=no
 set followup_to=yes
@@ -54,12 +51,12 @@ set envelope_from  = yes
 set fast_reply=yes
 set indent_string="> "
 
-# Fordwarding 
+# Fordwarding
 set forward_format = "Fwd: %s"
 set forward_quote
 set mime_forward=no
 set mime_forward_rest=yes
-set forward_decode=yes              # Don't decode MIME messages to text/plain when forwarding
+set forward_decode=yes
 set nopipe_decode
 
 # Pager
@@ -76,16 +73,16 @@ set menu_scroll
 set smart_wrap
 set mark_old = no
 set nobeep
-set auto_tag             # if something is tagged, run commands on tagged msgs.
-set sort_alias=alias     # sort aliases in alpha order by alias name
-set status_on_top        # status bar on top.
+set auto_tag
+set sort_alias=alias
+set status_on_top
 
 set sort     = 'threads'
 set sort_aux = 'last-date-received'
 set strict_threads
 
 set wait_key=no
-set write_inc=25        # show progress when writting the mailboxes
+set write_inc=25
 set sleep_time=0
 set folder_format="%2C %t%N %f %> %8s %d "
 set index_format="%4C %Z %[!%b %d %Y] %-17.17F (%3l) %s"
@@ -95,4 +92,9 @@ alternative_order text/plain text text/enriched text/html
 ignore *
 unignore  from: to: cc: date: subject: user-agent: x-mailer:
 hdr_order from: to: cc: date: subject: user-agent: x-mailer:
+
+mailboxes `echo -n "+ "; find ~/Mail -maxdepth 1 -type d -name "*" -printf "+'%f' "`
+
+# Multiple accounts extra info (real name, mail address and sendmail/smtp config)
+source `FILE=~/.mutt/accounts/$MAIL; if [ ! -s "$FILE" ]; then FILE=/dev/null;fi; echo "$FILE"`
 
