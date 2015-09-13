@@ -1,0 +1,53 @@
+# Path to your oh-my-zsh installation.
+export ZSH=$HOME/.oh-my-zsh
+
+# Set name of the theme to load.
+ZSH_THEME="robbyrussell"
+
+# Extra plugins
+plugins=(git common-aliases)
+
+# User configuration
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+export EDITOR='vim'
+export GIT_EDITOR='vim'
+
+# Current account for mutt
+export MAIL="anavarro@achtung.es"
+
+# Aliases
+alias ..='cd ..'
+alias ll='ls -hl'
+alias la='ls -a'
+alias m='more'
+alias v='vim'
+alias h='history'
+alias df='df -h'
+alias vi='vim'
+
+# Lists folders and files sizes in the current folder
+alias ducks='du -cksh * | sort -rn|head -11' 
+
+if [ "$OS" = "openbsd" ] ; then
+
+    if [ -f /usr/local/bin/ggrep ]; then 
+        alias grep="ggrep --color=auto --exclude-dir=.git"
+    fi
+
+    if [ -f /usr/local/bin/colorls ]; then
+        alias ls='colorls -G'
+    fi
+fi
+
+if [ "$OS" = "linux" ] ; then
+    alias ls='ls --color=auto'
+    alias grep='grep --color=auto --exclude-dir=\.git'
+fi
+
+if [ -d ~/bin ]; then
+    export PATH=~/bin:$PATH
+fi
+
+source $ZSH/oh-my-zsh.sh 
+
