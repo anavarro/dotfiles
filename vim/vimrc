@@ -1,5 +1,5 @@
 " Author: Alvaro Navarro <anavarro@achtung.es>
-" Date:   July 20th 2014
+" Update: September 2015
 
 " Setting up the vim plugin bundler
 " Kudos go to Juan Pedro Fisanotti (@fisadev) for the idea
@@ -21,55 +21,59 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 " Vundle 
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 " File browser
-Bundle 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdtree'
 " Comment generator
-Bundle 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdcommenter'
 " Former Zen coding plugin
-Bundle 'mattn/emmet-vim'
+Plugin 'mattn/emmet-vim'
 " Manage buffers the way it should be
-Bundle 'anavarro/minibufexpl'
-"Bundle 'techlivezheng/vim-plugin-minibufexpl'
+Plugin 'anavarro/minibufexpl'
+"Plugin 'techlivezheng/vim-plugin-minibufexpl'
 " Fast and responsive way to manage files and buffers
-Bundle 'sjbach/lusty'
+Plugin 'sjbach/lusty'
 " Run commands whithin a buffer
-Bundle 'rosenfeld/conque-term'
+Plugin 'rosenfeld/conque-term'
 " keyword completion out of the current buffer content
-Bundle 'Shougo/neocomplcache.vim'
+Plugin 'Shougo/neocomplcache.vim'
 " Tags browser from source code files
-Bundle 'majutsushi/tagbar'
+Plugin 'majutsushi/tagbar'
 " Automatic closing of quotes, parenthesis
-Bundle 'Raimondi/delimitMate'
+"Plugin 'Raimondi/delimitMate'
 " easily delete, change and add such surroundings in pairs
-Bundle 'tpope/vim-surround'
+Plugin 'tpope/vim-surround'
 " Makes GUI colorschemes work in terminal
-Bundle 'godlygeek/csapprox'
+Plugin 'godlygeek/csapprox'
 " Wombat theme
-Bundle 'vim-scripts/Wombat'
+Plugin 'vim-scripts/Wombat'
 " Airline
-Bundle 'bling/vim-airline'
+Plugin 'bling/vim-airline'
 " Window chooser
-Bundle 't9md/vim-choosewin'
+Plugin 't9md/vim-choosewin'
 " Git/mercurial/others diff icons on the side of the file lines
-Bundle 'mhinz/vim-signify'
+Plugin 'mhinz/vim-signify'
 " Snippets with dependencies
-Bundle "MarcWeber/vim-addon-mw-utils"
-Bundle "tomtom/tlib_vim"
-Bundle "honza/vim-snippets"
-Bundle "garbas/vim-snipmate"
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'honza/vim-snippets'
+Plugin 'garbas/vim-snipmate'
 " Languages code checker
-Bundle 'scrooloose/syntastic'
+Plugin 'scrooloose/syntastic'
 " Omni completion (intellisense) in C and C++ files
-Bundle 'vim-scripts/OmniCppComplete'
+Plugin 'vim-scripts/OmniCppComplete'
 " Switch between source files and header
-Bundle 'vim-scripts/a.vim'
+Plugin 'vim-scripts/a.vim'
 " Compile or run a single source file without leaving vim
-Bundle 'xuhdev/SingleCompile'
+Plugin 'xuhdev/SingleCompile'
 " Full featured Go (golang) support
 Plugin 'fatih/vim-go'
 " Python mode (indentation, doc, refactor, lints, code checking, motion
-Bundle 'klen/python-mode'
+Plugin 'klen/python-mode'
+" Read Unix man pages faster than a speeding bullet
+Plugin 'jez/vim-superman'
+" Nim Language support
+Plugin 'zah/nimrod.vim'
 
 " Install plugins the first time vim runs
 if iCanHazVundle == 0
@@ -242,8 +246,10 @@ let g:ConqueTerm_EscKey = '<Esc>'
 " show list of errors and warnings on the current file
 nmap <leader>n :Errors<CR>
 " don't put icons on the sign column (it hides the vcs status icons of signify)
-let g:syntastic_enable_signs = 0
-let g:syntastic_quiet_messages = {'level': 'warnings'}
+"let g:syntastic_enable_signs = 0
+"let g:syntastic_quiet_messages = {'level': 'warnings'}
+let g:syntastic_error_symbol = '✘'
+let g:syntastic_warning_symbol = "▲"
 
 " Signify ----------
 " this first setting decides in which order try to guess your current vcs
@@ -369,7 +375,7 @@ function! Chomp(str)
 endfunction
 
 function! DmenuOpen(cmd)
-    let fname = Chomp(system("find . | grep -vE 'svn|docs' | grep -E '.cpp$|.h$|.py$|Makefile|.java$' | dmenu -i -l 20 -p " . a:cmd))
+    let fname = Chomp(system("find . | grep -vE 'git|svn|docs' | grep -E '.cpp$|.h$|.py$|Makefile|.java$' | dmenu -i -l 20 -p " . a:cmd))
     if empty(fname)
         return
     endif
@@ -388,3 +394,6 @@ endif
 
 colorscheme wombat
 
+if filereadable("~/.vim/tagrc")
+    source ~/.vim/tagrc
+endif
