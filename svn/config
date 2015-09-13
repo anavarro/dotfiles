@@ -1,0 +1,17 @@
+[auth]
+password-stores =
+
+[helpers]
+
+[tunnels]
+
+[miscellany]
+enable-auto-props = yes
+
+[auto-props]
+Makefile = svn:eol-style=native;svn:keywords="Author Date Revision Id"; svn:mime-type=text/plain 
+*.cpp    = svn:eol-style=native;svn:keywords="Author Date Revision Id"; svn:mime-type=text/plain 
+*.h      = svn:eol-style=native;svn:keywords="Author Date Revision Id"; svn:mime-type=text/plain 
+*.java   = svn:eol-style=native;svn:keywords="Author Date Revision Id"; svn:mime-type=text/plain 
+*.py     = svn:eol-style=native;svn:keywords="Author Date Revision Id"; svn:mime-type=text/x-python; svn:executable 
+
