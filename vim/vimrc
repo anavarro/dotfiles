@@ -145,33 +145,6 @@ set statusline+=\ [%{&ff}/%Y]
 set statusline+=\ [%{getcwd()}]
 set statusline+=%=%-14.(%l,%c%V%)\ %p%%
 
-" Airplane
-let g:airline_theme = 'bubblegum'
-
-" Persistent undos
-set undofile
-set undodir=~/.vim/dirs/undos
-
-if !isdirectory(&undodir)
-    call mkdir(&undodir, "p")
-endif
-
-" Python-mode
-let g:pymode_lint_on_write = 0    " don't use linter, we use syntastic for that
-let g:pymode_lint_signs = 0       
-let g:pymode_folding = 0          " don't fold python code on open
-let g:pymode_rope = 0             " don't load rope by default. Change to 1 to use rope
-
-" navigate windows with meta+arrows
-map  <M-Right>  <c-w>l
-map  <M-Left>   <c-w>h
-map  <M-Up>     <c-w>k
-map  <M-Down>   <c-w>j
-imap <M-Right>  <ESC><c-w>l
-imap <M-Left>   <ESC><c-w>h
-imap <M-Up>     <ESC><c-w>k
-imap <M-Down>   <ESC><c-w>j
-
 " Sets what is saved when you save a session
 set sessionoptions=blank,buffers,curdir,folds,help,resize,tabpages,winsize
 
@@ -184,18 +157,19 @@ set backspace=indent,eol,start
 set matchpairs+=<:>
 set nofoldenable " Turn off folding 
 
-" Make cursor move by visual lines instead of file lines (when wrapping)
-map <up> gk
-map k gk
-imap <up> <C-o>gk
-map <down> gj
-map j gj
-imap <down> <C-o>gj
-map E ge
+set viewoptions=folds,options,cursor,unix,slash
+set virtualedit=onemore
+set history=1000
 
-" Map 'enter' to open the current file under cursor
-map <CR> gf  
+" Persistent undos
+set undofile
+set undodir=~/.vim/dirs/undos
 
+if !isdirectory(&undodir)
+    call mkdir(&undodir, "p")
+endif
+
+" Filetype specific stuff
 autocmd FileType mail       setlocal fo+=aw
 autocmd FileType html       setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
@@ -203,6 +177,15 @@ autocmd FileType python     highlight Excess ctermbg=Green guibg=Black
 autocmd FileType python     match Excess /\%120v.*/
 autocmd FileType python     set nowrap
 autocmd FileType c          set comments=sl:/*,mb:\ *,elx:\ */
+
+" Python-mode
+let g:pymode_lint_on_write = 0    " don't use linter, we use syntastic for that
+let g:pymode_lint_signs = 0       
+let g:pymode_folding = 0          " don't fold python code on open
+let g:pymode_rope = 0             " don't load rope by default. Change to 1 to use rope
+
+" Airplane
+let g:airline_theme = 'bubblegum'
 
 " Omni Completion
 set omnifunc=syntaxcomplete#Complete
@@ -260,60 +243,67 @@ let g:NERDShutUp=1          " Silent mode
 let b:match_ignorecase = 1  " ignore lower/upper case
 let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.o$', '\.so$']
 
-" complete option
-let g:AutoComplPop_IgnoreCaseOption = 0
-let g:AutoComplPop_BehaviorKeywordLength = 2
+" (re)mapping keys
+nnoremap <leader>e  <esc>:qall!<cr>      " close all buffers and exit
+nnoremap <Leader>i  :set list!<cr>       " show special characters
+nnoremap <Leader>v  :vsp^M^W^W<cr>       " split vertically
+nnoremap <Leader>h  :sp^W^W<cr>          " split horizontally
+nnoremap <Leader>l  :cl<CR>              " show errors
+nnoremap <leader>/  :nohlsearch<CR>      " switch off the current search
+nnoremap <leader>rs :source ~/.vimrc<CR> " reload vimrc file
 
-" automatically give executable permissions if filename is *.sh
-au BufWritePost *.sh :!chmod a+x <afile>
+" Navigate windows with meta+arrows
+map  <M-Right>  <c-w>l
+map  <M-Left>   <c-w>h
+map  <M-Up>     <c-w>k
+map  <M-Down>   <c-w>j
+imap <M-Right>  <ESC><c-w>l
+imap <M-Left>   <ESC><c-w>h
+imap <M-Up>     <ESC><c-w>k
+imap <M-Down>   <ESC><c-w>j
 
-" automatically insert "#!/bin/sh" line for *.sh files
-au BufEnter *.sh if getline(1) == "" | :call setline(1, "#!/bin/sh")
+" Make cursor move by visual lines instead of file lines (when wrapping)
+nnoremap <up>   gk
+nnoremap <down> gj
+imap <up>   <C-o>gk
+imap <down> <C-o>gj
+" Wrapped lines goes down/up to next row, rather than next line in file.
+nnoremap k gk
+nnoremap j gj
 
-nnoremap <leader>e <esc>:qall<cr>
-nnoremap <leader>q <esc>:q!<cr>
-nnoremap <Leader>i :set list!<cr>    " show special characters
-nnoremap <Leader>v :vsp^M^W^W<cr>    " split vertically
-nnoremap <Leader>h :sp^W^W<cr>       " split horizontally
-nnoremap <Leader>l :cl<CR>           " show errors
-nnoremap <leader>/ :nohlsearch<CR>   " Switch Off The Current Search
-nnoremap <leader>sn <plug>(signify-next-hunk)
-nnoremap <leader>sp <plug>(signify-prev-hunk)
-nnoremap <leader>rs :source ~/.vimrc<CR> " Reload vimrc file
+" Open the current file under cursor with 'enter'
+nnoremap <CR> gf  
 
 " Moving next and previous result (erros/finds)
-map f :cn<CR>
+nnoremap f :cn<CR>
 
-noremap W :bn<cr>
-noremap Q :bp<cr>
-noremap D :bd!<cr>
-noremap E <esc><C-]><cr>
+" Switch between buffers
+nnoremap W :bn<cr>
+nnoremap Q :bp<cr>
+nnoremap D :bd!<cr>
 
-" Tags generation
-set tags=./tags;/ 
+" Look up the current symbol
+nnoremap E <esc><C-]><cr>
 
-imap <c-space> <c-x><c-o>
+" Call sudo when editing a readonly file
 cmap w!! %!sudo tee > /dev/null %
-
-set viewoptions=folds,options,cursor,unix,slash
-set virtualedit=onemore
-set history=1000
-
-" Wrapped lines goes down/up to next row, rather than next line in file.
-nnoremap j gj
-nnoremap k gk
 
 " Yank from the cursor to the end of the line, to be consistent with C and D.
 nnoremap Y y$
 
-" Compile
+" Function Keys
 nnoremap <F2>  :A<CR>
 nnoremap <F3>  :NERDTreeToggle<CR>
 nnoremap <F4>  :TagbarToggle<CR>
 nnoremap <F5>  :Errors<CR>
 nnoremap <F9>  :SCCompile<cr>
 nnoremap <F10> :SCCompileRun<cr>
-nnoremap <F12> :!ctags -R --sort=1 --c++-kinds=+p --fields=+iaS --extra=+q+f --language-force=C++ .<CR>
+
+" automatically give executable permissions if filename is *.sh
+au BufWritePost *.sh :!chmod a+x <afile>
+
+" automatically insert "#!/bin/sh" line for *.sh files
+au BufEnter *.sh if getline(1) == "" | :call setline(1, "#!/bin/sh")
 
 function TrimWhiteSpace()
   %s/\s*$//
@@ -344,6 +334,11 @@ if &term =~ "xterm\\|rxvt"
   autocmd VimLeave * silent !echo -ne "\033]112\007"
 endif
 
-if filereadable("~/.vim/tagrc")
-    source ~/.vim/tagrc
-endif
+" Load current tag file  
+set tags=./tags;/ 
+
+" Load pregenerated tag files from tags folder
+for i in split(glob('~/.vim/tags/*.vim'), '\n')
+    exe 'source' i 
+endfor 
+
