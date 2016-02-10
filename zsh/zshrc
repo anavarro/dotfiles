@@ -7,6 +7,8 @@ ZSH_THEME="robbyrussell"
 # Extra plugins
 plugins=(git common-aliases tmux sudo)
 
+source $ZSH/oh-my-zsh.sh
+
 # User configuration
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -20,16 +22,25 @@ export MAIL="anavarro@achtung.es"
 alias ..='cd ..'
 alias ll='ls -hl'
 alias la='ls -a'
-alias m='more'
-alias v='vim'
 alias h='history'
 alias df='df -h'
 alias vi='vim'
+alias v='vim'
+alias tmux='TERM=xterm-256color \tmux'
 
 # Lists folders and files sizes in the current folder
 alias ducks='du -cksh * | sort -rn|head -11' 
 
-if [ "$OS" = "openbsd" ] ; then
+export OS=`uname`
+
+# OpenBSD environment
+if [ "$OS" = "Openbsd" ] ; then
+
+    # working on -Current
+    export CVSROOT=anoncvs@anoncvs.usa.openbsd.org:/cvs
+    export PKG_PATH=http://ftp.spline.de/pub/OpenBSD/snapshots/packages/$(machine -a)/
+
+    alias cvsup='cvs -q up -Pd'
 
     if [ -f /usr/local/bin/ggrep ]; then 
         alias grep="ggrep --color=auto --exclude-dir=.git"
@@ -40,14 +51,17 @@ if [ "$OS" = "openbsd" ] ; then
     fi
 fi
 
-if [ "$OS" = "linux" ] ; then
-    alias ls='ls --color=auto'
+# Linux environment
+if [ "$OS" = "Linux" ] ; then
     alias grep='grep --color=auto --exclude-dir=\.git'
 fi
 
+# Local bin folder
 if [ -d ~/bin ]; then
     export PATH=~/bin:$PATH
 fi
 
-source $ZSH/oh-my-zsh.sh 
+# Golang
+export GOPATH=~/packages/go
+export PATH=$PATH:$GOPATH/bin
 

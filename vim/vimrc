@@ -29,13 +29,13 @@ Plugin 'scrooloose/nerdcommenter'
 " Former Zen coding plugin
 Plugin 'mattn/emmet-vim'
 " Manage buffers the way it should be
-Plugin 'anavarro/minibufexpl'
+Plugin 'bling/vim-bufferline'
+" Automatic closing of quotes, parenthesis
+Plugin 'Raimondi/delimitMate'
 " keyword completion out of the current buffer content
 Plugin 'Shougo/neocomplcache.vim'
 " Tags browser from source code files
 Plugin 'majutsushi/tagbar'
-" Automatic closing of quotes, parenthesis
-Plugin 'Raimondi/delimitMate'
 " easily delete, change and add such surroundings in pairs
 Plugin 'tpope/vim-surround'
 " Makes GUI colorschemes work in terminal
@@ -43,7 +43,8 @@ Plugin 'godlygeek/csapprox'
 " Wombat theme
 Plugin 'vim-scripts/Wombat'
 " Airline
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 " Git/mercurial/others diff icons on the side of the file lines
 Plugin 'mhinz/vim-signify'
 " Languages code checker
@@ -103,7 +104,7 @@ set cpoptions-=m
 
 " Suffixes that get lower priority when doing tab completion for filenames.
 " These are files we are not likely to want to edit or read.
-set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
+set suffixes=.bak,~,.swp,.o,.info,.aux,.log
 
 " Autocomplete commands
 set wildmenu
@@ -185,7 +186,11 @@ let g:pymode_folding = 0          " don't fold python code on open
 let g:pymode_rope = 0             " don't load rope by default. Change to 1 to use rope
 
 " Airplane
-let g:airline_theme = 'bubblegum'
+let g:airline_theme = 'wombat'
+
+" Bufferline
+let g:bufferline_echo = 0
+let g:bufferline_show_bufnr = 0
 
 " Omni Completion
 set omnifunc=syntaxcomplete#Complete
