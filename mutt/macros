@@ -6,5 +6,8 @@ macro generic   ,<Space>    ":source ~/.mutt/muttrc\n" "Reload mutt's configurat
 macro editor    ";" \Ct         # while typing addresses after a m - ; for completing it
 macro index     G           "!offlineimap\n"   "Invoke offlineimap"
 macro pager = " |sed -e \"s/'//g\" | less\r"
+macro pager \cb 'urlview' 'Follow links with urlview'
 
+#macro index,pager    \cb "<pipe-message> urlscan -c<Enter>" "call urlscan to extract URLs out of a message"
+#macro attach,compose \cb "<pipe-entry>   urlscan -c<Enter>" "call urlscan to extract URLs out of a message"
 
