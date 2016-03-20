@@ -24,20 +24,14 @@ call vundle#rc()
 Plugin 'gmarik/vundle'
 " File browser
 Plugin 'scrooloose/nerdtree'
-" Comment generator
-Plugin 'scrooloose/nerdcommenter'
 " Former Zen coding plugin
 Plugin 'mattn/emmet-vim'
 " Manage buffers the way it should be
 Plugin 'bling/vim-bufferline'
-" Automatic closing of quotes, parenthesis
-Plugin 'Raimondi/delimitMate'
 " keyword completion out of the current buffer content
 Plugin 'Shougo/neocomplcache.vim'
 " Tags browser from source code files
 Plugin 'majutsushi/tagbar'
-" easily delete, change and add such surroundings in pairs
-Plugin 'tpope/vim-surround'
 " Makes GUI colorschemes work in terminal
 Plugin 'godlygeek/csapprox'
 " Wombat theme
@@ -63,6 +57,8 @@ Plugin 'klen/python-mode'
 Plugin 'jez/vim-superman'
 " Nim Language support
 Plugin 'zah/nimrod.vim'
+" Rust support 
+Plugin 'rust-lang/rust.vim'
 
 " Install plugins the first time vim runs
 if iCanHazVundle == 0
@@ -304,6 +300,7 @@ nnoremap <F4>  :TagbarToggle<CR>
 nnoremap <F5>  :Errors<CR>
 nnoremap <F9>  :SCCompile<cr>
 nnoremap <F10> :SCCompileRun<cr>
+nnoremap <F12> :!gentags<CR>
 
 " automatically give executable permissions if filename is *.sh
 au BufWritePost *.sh :!chmod a+x <afile>
