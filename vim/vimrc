@@ -1,5 +1,4 @@
 " Author: Alvaro Navarro <anavarro@achtung.es>
-" Update: November 2015
 
 " Setting up the vim plugin bundler
 " Kudos go to Juan Pedro Fisanotti (@fisadev) for the idea
@@ -20,45 +19,25 @@ filetype plugin indent off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" Vundle 
-Plugin 'gmarik/vundle'
-" File browser
-Plugin 'scrooloose/nerdtree'
-" Former Zen coding plugin
-Plugin 'mattn/emmet-vim'
-" Manage buffers the way it should be
-Plugin 'bling/vim-bufferline'
-" keyword completion out of the current buffer content
-Plugin 'Shougo/neocomplcache.vim'
-" Tags browser from source code files
-Plugin 'majutsushi/tagbar'
-" Makes GUI colorschemes work in terminal
-Plugin 'godlygeek/csapprox'
-" Wombat theme
-Plugin 'vim-scripts/Wombat'
-" Airline
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-" Git/mercurial/others diff icons on the side of the file lines
-Plugin 'mhinz/vim-signify'
-" Languages code checker
-Plugin 'scrooloose/syntastic'
-" Omni completion (intellisense) in C and C++ files
-Plugin 'vim-scripts/OmniCppComplete'
-" Switch between source files and header
-Plugin 'vim-scripts/a.vim'
-" Compile or run a single source file without leaving vim
-Plugin 'xuhdev/SingleCompile'
-" Full featured Go (golang) support
-Plugin 'fatih/vim-go'
-" Python mode
-Plugin 'klen/python-mode'
-" Read Unix man pages faster than a speeding bullet
-Plugin 'jez/vim-superman'
-" Nim Language support
-Plugin 'zah/nimrod.vim'
-" Rust support 
-Plugin 'rust-lang/rust.vim'
+Plugin 'gmarik/vundle'                   " vundle
+Plugin 'scrooloose/nerdtree'             " file browser
+Plugin 'scrooloose/syntastic'            " languages code checker
+Plugin 'mhinz/vim-signify'               " realtime version control system diff icons
+Plugin 'ctrlpvim/ctrlp.vim'              " full path fuzzy finder
+Plugin 'bling/vim-bufferline'            " manage buffers the way it should be
+Plugin 'Shougo/neocomplete.vim'          " keyword completion in the current buffer
+Plugin 'majutsushi/tagbar'               " tags browser from source code files
+Plugin 'vim-airline/vim-airline'         " airline plugin
+Plugin 'vim-airline/vim-airline-themes'  " airline themes
+Plugin 'nanotech/jellybeans.vim'         " jellybeans theme
+Plugin 'vim-scripts/a.vim'               " switch between source files and header
+Plugin 'klen/python-mode'                " python mode
+Plugin 'fatih/vim-go'                    " golang support
+Plugin 'zah/nimrod.vim'                  " nim support
+Plugin 'rust-lang/rust.vim'              " rust support
+Plugin 'mileszs/ack.vim'                 " call ack from vim
+Plugin 'bronson/vim-trailing-whitespace' " show trailing whitespace
+Plugin 'rbgrouleff/bclose.vim'           " delete a buffer without closing the window
 
 " Install plugins the first time vim runs
 if iCanHazVundle == 0
@@ -75,6 +54,7 @@ let mapleader = ","
 " disable vi compatibility
 set nocompatible
 set nobackup
+set noswapfile
 
 " Sets the number of lines vim checks for initializations
 " Set to 0 in order to avoid security problems
@@ -110,7 +90,7 @@ set whichwrap=b,s,h,l,<,>,[,]
 " Searching
 set hlsearch          " highlight search
 set incsearch         " Incremental search, search as you type
-set ignorecase        " Ignore case when searching 
+set ignorecase        " Ignore case when searching
 set smartcase         " Ignore case when searching lowercase
 set showmatch         " Highlights the matching braces|brackets|parens when the cursor is on a bracket.
 
@@ -122,7 +102,7 @@ set scrolloff=3       " when scrolling, keep cursor 3 lines away from screen bor
 set numberwidth=4     " whanges how wide the column containing line numbers will be.
 set equalalways       " multiple windows, when created, are equal in size
 set splitbelow        " make the new window appear below the current window
-set splitright        " make the new window appear on the right   
+set splitright        " make the new window appear on the right
 set cursorline        " cursor highlights
 set ruler             " show ruler
 set number            " Show line numbers
@@ -133,26 +113,17 @@ set vb t_vb=          " Turn off bell
 set foldmethod=indent " fold group of lines with the same indent
 set foldlevel=1       " fold one level
 
-highlight clear SignColumn
-
-set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) 
-set statusline=%<%f
-set statusline+=%w%h%m%r
-set statusline+=\ [%{&ff}/%Y]
-set statusline+=\ [%{getcwd()}]
-set statusline+=%=%-14.(%l,%c%V%)\ %p%%
-
 " Sets what is saved when you save a session
 set sessionoptions=blank,buffers,curdir,folds,help,resize,tabpages,winsize
 
-" Invisible characters 
+" Invisible characters
 set listchars=trail:.,tab:>-,eol:$
 set listchars+=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 set nolist
 
 set backspace=indent,eol,start
 set matchpairs+=<:>
-set nofoldenable " Turn off folding 
+set nofoldenable " Turn off folding
 
 set viewoptions=folds,options,cursor,unix,slash
 set virtualedit=onemore
@@ -170,89 +141,54 @@ endif
 autocmd FileType mail       setlocal fo+=aw
 autocmd FileType html       setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType python     highlight Excess ctermbg=Green guibg=Black
-autocmd FileType python     match Excess /\%120v.*/
-autocmd FileType python     set nowrap
+autocmd FileType python     setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType c          set comments=sl:/*,mb:\ *,elx:\ */
 
 " Python-mode
 let g:pymode_lint_on_write = 0    " don't use linter, we use syntastic for that
-let g:pymode_lint_signs = 0       
-let g:pymode_folding = 0          " don't fold python code on open
-let g:pymode_rope = 0             " don't load rope by default. Change to 1 to use rope
+let g:pymode_lint_signs    = 0
+let g:pymode_folding       = 0    " don't fold python code on open
+let g:pymode_rope          = 0    " don't load rope by default. Change to 1 to use rope
 
 " Airplane
-let g:airline_theme = 'wombat'
+let g:airline_theme = 'jellybeans'
 
 " Bufferline
-let g:bufferline_echo = 0
-let g:bufferline_show_bufnr = 0
-
-" Omni Completion
-set omnifunc=syntaxcomplete#Complete
-let OmniCpp_SelectFirstItem = 2     " select first item (but don't insert)
-let OmniCpp_NamespaceSearch = 1
-let OmniCpp_GlobalScopeSearch = 1
-let OmniCpp_ShowAccess = 1
-let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
-let OmniCpp_MayCompleteDot = 1      " autocomplete after .
-let OmniCpp_MayCompleteArrow = 1    " autocomplete after ->
-let OmniCpp_MayCompleteScope = 1    " autocomplete after ::
-let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
-" automatically open and close the popup menu / preview window
-au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-set completeopt=menuone,menu,longest,preview
+let g:bufferline_echo       = 0    " don't automatically echo to the command bar
+let g:bufferline_show_bufnr = 0    " don't display buffer numbers
+let g:bufferline_modified   = '*'  " symbol to denote that a buffer is modified
+let g:bufferline_rotate     = 0    " no rotate, no scrolling
 
 " Syntastic
-" don't put icons on the sign column (it hides the vcs status icons of signify)
-"let g:syntastic_enable_signs = 0
-"let g:syntastic_quiet_messages = {'level': 'warnings'}
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_mode="active"
+let g:syntastic_enable_signs = 1
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_loc_list_height=5
-let g:syntastic_error_symbol = '✘'
-let g:syntastic_warning_symbol = "▲"
+let g:syntastic_check_on_wq   = 1
+
+" CtrlP
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ }
 
 " Signify
-" this first setting decides in which order try to guess your current vcs
 let g:signify_vcs_list = [ 'git', 'svn' ]
 
-" NeoComplCache  
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_ignore_case = 1
-let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_enable_auto_select = 1
-let g:neocomplcache_enable_fuzzy_completion = 1
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache_fuzzy_completion_start_length = 1
-let g:neocomplcache_auto_completion_start_length = 1
-let g:neocomplcache_auto_completion_start_length = 1
-let g:neocomplcache_manual_completion_start_length = 1
-let g:neocomplcache_min_keyword_length = 1
-let g:neocomplcache_min_syntax_length = 1
-let g:neocomplcache_same_filetype_lists = {}
-let g:neocomplcache_same_filetype_lists._ = '_'
+" Neocomplete
+let g:neocomplete#enable_at_startup = 1                 " Use neocomplete.
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#disable_auto_complete = 0             " auto completion
+let g:neocomplete#sources#syntax#min_keyword_length = 3 " Set minimum syntax keyword length.
+
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " NERDTree
-let g:NERDShutUp=1          " Silent mode
+let g:NERDShutUp       = 1  " Silent mode
+let NERDTreeMinimalUI  = 1  " Minimal UI
 let b:match_ignorecase = 1  " ignore lower/upper case
-let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.o$', '\.so$']
-
-" (re)mapping keys
-nnoremap <leader>e  <esc>:qall!<cr>      " close all buffers and exit
-nnoremap <Leader>i  :set list!<cr>       " show special characters
-nnoremap <Leader>v  :vsp^M^W^W<cr>       " split vertically
-nnoremap <Leader>h  :sp^W^W<cr>          " split horizontally
-nnoremap <Leader>l  :cl<CR>              " show errors
-nnoremap <leader>/  :nohlsearch<CR>      " switch off the current search
-nnoremap <leader>rs :source ~/.vimrc<CR> " reload vimrc file
+let NERDTreeIgnore     = ['\.pyc$', '\.pyo$', '\.o$', '\.so$']
 
 " Navigate windows with meta+arrows
 map  <M-Right>  <c-w>l
@@ -267,81 +203,50 @@ imap <M-Down>   <ESC><c-w>j
 " Make cursor move by visual lines instead of file lines (when wrapping)
 nnoremap <up>   gk
 nnoremap <down> gj
-imap <up>   <C-o>gk
-imap <down> <C-o>gj
-" Wrapped lines goes down/up to next row, rather than next line in file.
-nnoremap k gk
-nnoremap j gj
+imap     <up>   <C-o>gk
+imap     <down> <C-o>gj
 
-" Open the current file under cursor with 'enter'
-nnoremap <CR> gf  
+" (re)mapping keys
+nnoremap <leader>e  <esc>:qall!<cr>      " close all buffers and exit
+nnoremap <Leader>v  :vsp^M^W^W<cr>       " split vertically
+nnoremap <Leader>h  :sp^W^W<cr>          " split horizontally
+nnoremap <leader>r  :source ~/.vimrc<CR> " reload vimrc file
+nnoremap <leader>a  :Ack<space>          " call ack plugin
 
-" Moving next and previous result (erros/finds)
-nnoremap f :cn<CR>
+nnoremap <CR> gf           " open the current file under cursor with 'enter'
+nnoremap f :cn<CR>         " move to next error
+nnoremap g :cp<CR>         " move to previous error
+nnoremap W :bn<cr>         " move to next buffer
+nnoremap Q :bp<cr>         " move to previous buffer
+nnoremap D :Bclose<cr>     " delete current buffer (plugin)
+nnoremap F :CtrlP<CR>      " search files and buffers (plugin)
+nnoremap E <esc><C-]><cr>  " look up the current symbol
+nnoremap Y y$              " yank from the cursor to the end of the line
+nnoremap I :set list!<cr>  " show special characters
+nnoremap ! :nohlsearch<cr> " switch off the current search
 
-" Switch between buffers
-nnoremap W :bn<cr>
-nnoremap Q :bp<cr>
-nnoremap D :bd!<cr>
+nnoremap <F2>  :A<CR>                         " switch between source and header
+nnoremap <F3>  :NERDTreeToggle<CR>            " show nerdtree plugin
+nnoremap <F4>  :TagbarToggle<CR>              " show tagbar plugin
+nnoremap <F5>  :silent make\|redraw!\|cw<CR>  " call make and show result
+nnoremap <F7>  :FixWhitespace<CR>             " fix white spaces
+nnoremap <F8>  :!gentags<CR>                  " generates tags from current directory
+set pastetoggle=<F6>                          " switch on/off paste mode
 
-" Look up the current symbol
-nnoremap E <esc><C-]><cr>
+" shellscript buffers should have executable permissions and call the shell
+autocmd BufWritePost *.sh :!chmod a+x <afile>
+autocmd BufEnter     *.sh if getline(1) == "" | :call setline(1, "#!/bin/sh")
 
 " Call sudo when editing a readonly file
 cmap w!! %!sudo tee > /dev/null %
 
-" Yank from the cursor to the end of the line, to be consistent with C and D.
-nnoremap Y y$
+colorscheme jellybeans
 
-" Function Keys
-nnoremap <F2>  :A<CR>
-nnoremap <F3>  :NERDTreeToggle<CR>
-nnoremap <F4>  :TagbarToggle<CR>
-nnoremap <F5>  :Errors<CR>
-nnoremap <F9>  :SCCompile<cr>
-nnoremap <F10> :SCCompileRun<cr>
-nnoremap <F12> :!gentags<CR>
-
-" automatically give executable permissions if filename is *.sh
-au BufWritePost *.sh :!chmod a+x <afile>
-
-" automatically insert "#!/bin/sh" line for *.sh files
-au BufEnter *.sh if getline(1) == "" | :call setline(1, "#!/bin/sh")
-
-function TrimWhiteSpace()
-  %s/\s*$//
-  ''
-endfunction
-
-function! Chomp(str)
-    return substitute(a:str, '\n$', '', '')
-endfunction
-
-function! DmenuOpen(cmd)
-    let fname = Chomp(system("find . | grep -vE '.git|.svn|CVS|docs|.swp' | dmenu -i -l 20 -p " . a:cmd))
-    if empty(fname)
-        return
-    endif
-    execute a:cmd . " " . fname
-endfunction
-
-map <c-t> :call DmenuOpen("tabe")<cr>
-map <c-f> :call DmenuOpen("e")<cr>
-
-colorscheme wombat
-
-" Prompt color
-if &term =~ "xterm\\|rxvt"
-  let &t_EI = "\<Esc>]12;red\x7"
-  silent !echo -ne "\033]12;red\007"
-  autocmd VimLeave * silent !echo -ne "\033]112\007"
-endif
-
-" Load current tag file  
-set tags=./tags;/ 
+" Load current tag file
+set tags=./tags
 
 " Load pregenerated tag files from tags folder
 for i in split(glob('~/.vim/tags/*.vim'), '\n')
-    exe 'source' i 
-endfor 
+    exe 'source' i
+endfor
 
