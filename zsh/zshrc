@@ -7,7 +7,11 @@ ZSH_THEME="robbyrussell"
 # Extra plugins
 plugins=(git common-aliases tmux sudo)
 
-source $ZSH/oh-my-zsh.sh
+if [ -f $ZSH/oh-my-zsh.sh ]; then
+    source $ZSH/oh-my-zsh.sh
+else
+    echo "Unable to find oh-my-zsh installation on $ZSH"
+fi
 
 # User configuration
 export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -30,11 +34,10 @@ alias tmux='TERM=xterm-256color \tmux'
 alias rsync='rsync -azvP'
 
 # Lists folders and files sizes in the current folder
-alias ducks='du -cksh * | sort -rn|head -11' 
+alias ducks='du -cksh * | sort -rn|head -11'
 
 export OS=`uname`
 
-# OpenBSD environment
 if [ "$OS" = "Openbsd" ] ; then
 
     # working on -Current
@@ -43,7 +46,7 @@ if [ "$OS" = "Openbsd" ] ; then
 
     alias cvsup='cvs -q up -Pd'
 
-    if [ -f /usr/local/bin/ggrep ]; then 
+    if [ -f /usr/local/bin/ggrep ]; then
         alias grep="ggrep --color=auto --exclude-dir=.git"
     fi
 
@@ -52,9 +55,13 @@ if [ "$OS" = "Openbsd" ] ; then
     fi
 fi
 
-# Linux environment
 if [ "$OS" = "Linux" ] ; then
     alias grep='grep --color=auto --exclude-dir=\.git'
+fi
+
+if [ "$OS" = "Darwin" ] ; then
+    export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+    PATH="/usr/local/bin:$PATH"
 fi
 
 # Local bin folder
@@ -62,7 +69,11 @@ if [ -d ~/bin ]; then
     export PATH=~/bin:$PATH
 fi
 
-# Golang
-export GOPATH=~/packages/go
-export PATH=$PATH:$GOPATH/bin
+# Load custom zsh files
+ZSHRC_PATH=$(dirname $($(which readlink) -f ${0%/*}))
+
+for f in $(find $ZSHRC_PATH -name '*.zsh'); do source $f; done
+
+# Load local zshrc if available
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
