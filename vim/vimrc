@@ -23,21 +23,23 @@ Plugin 'gmarik/vundle'                   " vundle
 Plugin 'scrooloose/nerdtree'             " file browser
 Plugin 'scrooloose/syntastic'            " languages code checker
 Plugin 'mhinz/vim-signify'               " realtime version control system diff icons
+Plugin 'godlygeek/csapprox'              " using GUI color settings in a terminal
 Plugin 'ctrlpvim/ctrlp.vim'              " full path fuzzy finder
 Plugin 'bling/vim-bufferline'            " manage buffers the way it should be
+Plugin 'rbgrouleff/bclose.vim'           " delete a buffer without closing the window
 Plugin 'Shougo/neocomplete.vim'          " keyword completion in the current buffer
 Plugin 'majutsushi/tagbar'               " tags browser from source code files
 Plugin 'vim-airline/vim-airline'         " airline plugin
 Plugin 'vim-airline/vim-airline-themes'  " airline themes
 Plugin 'nanotech/jellybeans.vim'         " jellybeans theme
 Plugin 'vim-scripts/a.vim'               " switch between source files and header
-Plugin 'klen/python-mode'                " python mode
-Plugin 'fatih/vim-go'                    " golang support
-Plugin 'zah/nimrod.vim'                  " nim support
-Plugin 'rust-lang/rust.vim'              " rust support
 Plugin 'mileszs/ack.vim'                 " call ack from vim
+Plugin 'FooSoft/vim-argwrap'             " wrap function arguments
 Plugin 'bronson/vim-trailing-whitespace' " show trailing whitespace
-Plugin 'rbgrouleff/bclose.vim'           " delete a buffer without closing the window
+Plugin 'klen/python-mode'                " python
+Plugin 'fatih/vim-go'                    " golang
+Plugin 'zah/nimrod.vim'                  " nim
+Plugin 'rust-lang/rust.vim'              " rust
 
 " Install plugins the first time vim runs
 if iCanHazVundle == 0
@@ -51,14 +53,11 @@ filetype plugin indent on
 " Master key
 let mapleader = ","
 
-" disable vi compatibility
+" disable some stuff
 set nocompatible
 set nobackup
 set noswapfile
-
-" Sets the number of lines vim checks for initializations
-" Set to 0 in order to avoid security problems
-set modelines=0
+set nomodeline
 
 " General Editing Stuff
 set tabstop=4       " Use 4 spaces ident style
@@ -66,11 +65,13 @@ set softtabstop=4   " How many columns uses when hitting Tab
 set shiftwidth=4    " Reindenting to 4 spaces
 set expandtab       " Produce the appropriate number of spaces
 set autoindent      " Automatically set the indent of a new line
-set smartindent     " Does the right thing (mostly)
+set copyindent      " Copy (exact) indention from the previous line.
+set nosmartindent   " Does not the right thing
 set nowrap          " Don't wrap text
 set linebreak       " Wrap at word
-set textwidth=120   " Wrap lines at 120 chars
+set textwidth=0     " Don't automatically wrap lines.
 set hidden          " Allow buffer switching without saving
+set ttyfast         " Improves redrawing for newer computers.
 
 " Use 'g' flag by default with :s/foo/bar/.
 set gdefault
@@ -84,7 +85,9 @@ set suffixes=.bak,~,.swp,.o,.info,.aux,.log
 
 " Autocomplete commands
 set wildmenu
+set wildchar=<Tab>
 set wildmode=list:longest,full
+set wildignore+=*.o,*.obj,*.pyc,*.aux,*.bbl,*.blg,.git,.svn,.hg
 set whichwrap=b,s,h,l,<,>,[,]
 
 " Searching
@@ -106,6 +109,7 @@ set splitright        " make the new window appear on the right
 set cursorline        " cursor highlights
 set ruler             " show ruler
 set number            " Show line numbers
+set relativenumber    " Show relative numbers instead of absolute ones.
 set showcmd           " show current command on ruler
 set showmode          " show current mode on ruler
 set laststatus=2      " always show the status line
@@ -137,12 +141,64 @@ if !isdirectory(&undodir)
     call mkdir(&undodir, "p")
 endif
 
-" Filetype specific stuff
-autocmd FileType mail       setlocal fo+=aw
-autocmd FileType html       setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType python     setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType c          set comments=sl:/*,mb:\ *,elx:\ */
+" Mail
+augroup mail
+au!
+au FileType mail setl spell     " Enable spellchecking.
+au FileType mail setl linebreak " keep paragraphs as single lines
+au FileType mail setl expandtab " Use spaces instead of tabs.
+au FileType mail setl wrap
+augroup end
+
+" C/C++ files
+augroup c_cpp
+au!
+au FileType c,cpp setl comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,bO:///,O://
+augroup end
+
+" Python
+augroup python
+au!
+au FileType python setl omnifunc=pythoncomplete#Complete
+au FileType python setl expandtab     " Use spaces instead of tabs.
+au FileType python setl tabstop=4     " A tab counts for 4 spaces.
+au FileType python setl softtabstop=4 " Causes backspace to delete 4 spaces.
+au FileType python setl shiftwidth=4  " Shift by 4 spaces.
+au FileType python nnoremap <buffer> <F10> :w<CR>:!clear; python %<CR>
+augroup end
+
+" Shell script
+augroup sh
+au!
+au FileType sh setl noexpandtab  " Use tabs instead of spaces.
+au BufWritePost *.sh :!chmod a+x <afile>
+au BufEnter     *.sh if getline(1) == "" | :call setline(1, "#!/bin/sh")
+augroup end
+
+" Git commits
+augroup gitcommit
+au!
+au FileType gitcommit setl spell     " Enable spellchecking.
+au FileType gitcommit setl expandtab " Use spaces instead of tabs.
+augroup end
+
+" Markdown
+augroup markdown
+au!
+au FileType markdown setl spell         " Enable spellchecking.
+au FileType markdown setl expandtab     " Use spaces instead of tabs.
+au FileType markdown setl tabstop=2     " Lists are indented with 2 spaces.
+au FileType markdown setl softtabstop=2 " Causes backspace to delete 2 spaces.
+au FileType markdown setl shiftwidth=2  " Shift by 2 spaces.
+augroup end
+
+" HTML
+augroup html
+au!
+au FileType html setl tabstop=2     " A tab counts for 4 spaces.
+au FileType html setl softtabstop=2 " Causes backspace to delete 4 spaces.
+au FileType html setl shiftwidth=2  " Shift by 4 spaces.
+augroup end
 
 " Python-mode
 let g:pymode_lint_on_write = 0    " don't use linter, we use syntastic for that
@@ -160,7 +216,7 @@ let g:bufferline_modified   = '*'  " symbol to denote that a buffer is modified
 let g:bufferline_rotate     = 0    " no rotate, no scrolling
 
 " Syntastic
-let g:syntastic_mode="active"
+let g:syntastic_mode = "active"
 let g:syntastic_enable_signs = 1
 let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_auto_loc_list = 0
@@ -203,8 +259,6 @@ imap <M-Down>   <ESC><c-w>j
 " Make cursor move by visual lines instead of file lines (when wrapping)
 nnoremap <up>   gk
 nnoremap <down> gj
-imap     <up>   <C-o>gk
-imap     <down> <C-o>gj
 
 " (re)mapping keys
 nnoremap <leader>e  <esc>:qall!<cr>      " close all buffers and exit
@@ -213,9 +267,11 @@ nnoremap <Leader>h  :sp^W^W<cr>          " split horizontally
 nnoremap <leader>r  :source ~/.vimrc<CR> " reload vimrc file
 nnoremap <leader>a  :Ack<space>          " call ack plugin
 
+nnoremap <silent> <leader>x :ArgWrap<CR>
+
 nnoremap <CR> gf           " open the current file under cursor with 'enter'
-nnoremap f :cn<CR>         " move to next error
-nnoremap g :cp<CR>         " move to previous error
+"nnoremap f :cn<CR>         " move to next error
+"nnoremap g :cp<CR>         " move to previous error
 nnoremap W :bn<cr>         " move to next buffer
 nnoremap Q :bp<cr>         " move to previous buffer
 nnoremap D :Bclose<cr>     " delete current buffer (plugin)
@@ -233,10 +289,6 @@ nnoremap <F7>  :FixWhitespace<CR>             " fix white spaces
 nnoremap <F8>  :!gentags<CR>                  " generates tags from current directory
 set pastetoggle=<F6>                          " switch on/off paste mode
 
-" shellscript buffers should have executable permissions and call the shell
-autocmd BufWritePost *.sh :!chmod a+x <afile>
-autocmd BufEnter     *.sh if getline(1) == "" | :call setline(1, "#!/bin/sh")
-
 " Call sudo when editing a readonly file
 cmap w!! %!sudo tee > /dev/null %
 
@@ -249,4 +301,5 @@ set tags=./tags
 for i in split(glob('~/.vim/tags/*.vim'), '\n')
     exe 'source' i
 endfor
+
 
