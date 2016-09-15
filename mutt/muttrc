@@ -1,7 +1,7 @@
 #
 # Mutt configuration
 #
-# Alvaro Navarro <anavarro@achtung.es> 2006/2015
+# Alvaro Navarro <anavarro@achtung.es> 2006/2016
 
 source ~/.mutt/colors
 source ~/.mutt/macros
@@ -9,6 +9,7 @@ source ~/.mutt/bindings
 source ~/.mutt/aliases
 source ~/.mutt/auto_views
 source ~/.mutt/subscriptions
+source ~/.mutt/account
 
 set alias_file       =~/.mutt/aliases
 set mailcap_path     =~/.mutt/mailcap
@@ -24,7 +25,7 @@ set reverse_alias = yes
 # Organizing
 set noconfirmappend
 
-# Composing 
+# Composing
 set charset="utf-8"
 set config_charset="utf-8"
 set assumed_charset="utf-8:iso-8859-15:us-ascii"
@@ -94,7 +95,4 @@ unignore  from: to: cc: date: subject: user-agent: x-mailer:
 hdr_order from: to: cc: date: subject: user-agent: x-mailer:
 
 mailboxes `echo -n "+ "; find ~/Mail -maxdepth 1 -type d -name "*" -printf "+'%f' "`
-
-# Multiple accounts extra info (real name, mail address and sendmail/smtp config)
-source `FILE=~/.mutt/accounts/$MAIL; if [ ! -s "$FILE" ]; then FILE=/dev/null;fi; echo "$FILE"`
 

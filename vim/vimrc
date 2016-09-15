@@ -27,18 +27,22 @@ Plugin 'godlygeek/csapprox'              " using GUI color settings in a termina
 Plugin 'ctrlpvim/ctrlp.vim'              " full path fuzzy finder
 Plugin 'bling/vim-bufferline'            " manage buffers the way it should be
 Plugin 'rbgrouleff/bclose.vim'           " delete a buffer without closing the window
-Plugin 'Shougo/neocomplete.vim'          " keyword completion in the current buffer
 Plugin 'majutsushi/tagbar'               " tags browser from source code files
+Plugin 'milkypostman/vim-togglelist'     " toggle QuickFix list
+Plugin 'yssl/QFEnter'                    " open QuickFix entry in a new buffer
 Plugin 'vim-airline/vim-airline'         " airline plugin
 Plugin 'vim-airline/vim-airline-themes'  " airline themes
 Plugin 'nanotech/jellybeans.vim'         " jellybeans theme
 Plugin 'vim-scripts/a.vim'               " switch between source files and header
 Plugin 'FooSoft/vim-argwrap'             " wrap function arguments
 Plugin 'bronson/vim-trailing-whitespace' " show trailing whitespace
-Plugin 'rip-rip/clang_complete'          " c/c++ autocomplete
+Plugin 'Valloric/YouCompleteMe'          " multi-language autocomplete
 Plugin 'klen/python-mode'                " python
 Plugin 'fatih/vim-go'                    " golang
 Plugin 'rust-lang/rust.vim'              " rust
+Plugin 'pangloss/vim-javascript'         " javascript
+Plugin 'ternjs/tern_for_vim'
+Plugin 'octol/vim-cpp-enhanced-highlight' " Enhanced C+11 syntax hightlighting
 
 " Install plugins the first time vim runs
 if iCanHazVundle == 0
@@ -71,6 +75,8 @@ set linebreak       " Wrap at word
 set textwidth=0     " Don't automatically wrap lines.
 set hidden          " Allow buffer switching without saving
 set ttyfast         " Improves redrawing for newer computers.
+set mouse=a         " Enable mouse
+set mousemodel=extend " right mouse button extends selection
 
 " Use 'g' flag by default with :s/foo/bar/.
 set gdefault
@@ -106,9 +112,9 @@ set equalalways       " multiple windows, when created, are equal in size
 set splitbelow        " make the new window appear below the current window
 set splitright        " make the new window appear on the right
 set cursorline        " cursor highlights
+set title             " show title in console
 set ruler             " show ruler
 set number            " Show line numbers
-set relativenumber    " Show relative numbers instead of absolute ones.
 set showcmd           " show current command on ruler
 set showmode          " show current mode on ruler
 set laststatus=2      " always show the status line
@@ -140,6 +146,9 @@ if !isdirectory(&undodir)
     call mkdir(&undodir, "p")
 endif
 
+au! BufRead,BufNewFile *.json set filetype=json
+au! BufNewFile,BufRead *.sql  set syntax=sql
+
 " Mail
 augroup mail
 au!
@@ -153,7 +162,16 @@ augroup end
 augroup c_cpp
 au!
 au FileType c,cpp setl comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,bO:///,O://
-au FileType c,cpp nmap <leader>b  <esc>:silent make\|redraw!\|cw<CR>
+au FileType c,cpp nmap <leader>b  <esc>:silent make\|redraw!\|copen<CR>
+au FileType c,cpp nmap <leader>r  <esc>:w<CR> :!clear<CR> :!./%<<CR>
+augroup end
+
+" Javascript
+augroup js
+au!
+au FileType javascript setl shiftwidth=2
+au FileType javascript setl tabstop=2
+au FileType Javascript setl softtabstop=2
 augroup end
 
 " Python
@@ -172,7 +190,7 @@ au!
 au FileType go nmap <leader>b  <Plug>(go-build)
 au FileType go nmap <leader>r  <Plug>(go-run)
 au FileType go nmap <leader>t  <Plug>(go-test)
-augroup go
+augroup end
 
 " Shell script
 augroup sh
@@ -211,8 +229,8 @@ augroup end
 let g:pymode_lint_on_write    = 0    " don't use linter, we use syntastic for that
 let g:pymode_lint_signs       = 0    " no linter signs
 let g:pymode_folding          = 0    " don't fold python code on open
-let g:pymode_rope             = 1    " don't load rope by default. Change to 1 to use rope
-let g:pymode_rope_regenerate_on_write = 1
+let g:pymode_rope             = 0    " don't load rope by default. Change to 1 to use rope
+let g:pymode_rope_regenerate_on_write = 0
 let g:pymode_trim_whitespaces = 1    " trim unused white spaces on save
 let g:pymode_options          = 1
 let g:pymode_run_bind         = '<leader>r'
@@ -228,26 +246,27 @@ let g:bufferline_modified   = '*'  " symbol to denote that a buffer is modified
 let g:bufferline_rotate     = 0    " no rotate, no scrolling
 
 " Syntastic
-let g:syntastic_mode = "active"
+let g:syntastic_mode = {'mode' : 'passive',
+            \ 'active_filetypes' : ['python'],
+            \ 'passive_filetypes': ['cpp']}
+
+let g_syntastic_cpp_checkers = ['ycm']
 let g:syntastic_enable_signs = 1
 let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq   = 1
+let g:syntastic_check_on_wq   = 0
+let g:syntastic_cpp_check_header = 0
+let g:syntastic_cpp_remove_include_errors = 1
 
-" Clang autocomplete
-let g:clang_complete_auto = 1
-let g:clang_complete_copen = 1
-let g:clang_complete_macros=1
-let g:clang_library_path='/usr/lib/llvm-3.6/lib'
-let g:clang_use_library=1
-let g:clang_auto_select=1 "select first entry in popup menu but don't insert in code
-let g:clang_complete_hl_errors=1 " highlight errors and warnings
-let g:clang_periodic_quickfix=1 " update quickfix periodically
-let g:clang_trailing_placeholder=1 " add trailing placeholder after function
-let g:clang_close_preview=1 " close preview window after completion
-let g:clang_debug=1
-let g:clang_jumpto_declaration_key='<c-e>'
+" YouCompleteMe
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let g:ycm_complete_in_comments = 1
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_python_binary_path = '/usr/bin/python'
+
+set completeopt=menu,menuone,longest
+map <leader>d :YcmCompleter GoToDefinitionElseDeclaration<cr>
 
 " CtrlP
 let g:ctrlp_custom_ignore = {
@@ -258,13 +277,7 @@ let g:ctrlp_custom_ignore = {
 " Signify
 let g:signify_vcs_list = [ 'git', 'svn' ]
 
-" Neocomplete
-let g:neocomplete#enable_at_startup = 1                 " Use neocomplete.
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#disable_auto_complete = 0             " auto completion
-let g:neocomplete#sources#syntax#min_keyword_length = 3 " Set minimum syntax keyword length.
-
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+"inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " NERDTree
 let g:NERDShutUp       = 1  " Silent mode
@@ -289,25 +302,29 @@ nnoremap <down> gj
 " (re)mapping keys
 nnoremap Q  :bp<cr>              " move to previous buffer
 nnoremap W  :bn<cr>              " move to next buffer
-nnoremap <leader>e  <esc>:qall!<cr>      " close all buffers and exit
-nnoremap <leader>t  :NERDTreeToggle<cr>  " show nerdtree plugin
+nnoremap D  :Bclose!<cr>         " delete current buffer
+nnoremap V  :vsp<cr>             " split buffer vertically
+nnoremap H  :sp<cr>              " split buffer horizontally
+nnoremap C  :<esc><c-w>q<cr>     " delete split buffer
 
-nnoremap V  :vsp^M^W^W<cr>       " split vertically
-nnoremap H  :sp^W^W<cr>          " split horizontally
-nnoremap <leader>s  :source ~/.vimrc<CR> " reload vimrc file
-nnoremap <leader>n  :cn<CR>              " move to next error
-nnoremap <leader>p  :cp<CR>              " move to previous error
-nnoremap <leader>f  :CtrlP<CR>           " search files and buffers (plugin)
-nnoremap D  :Bclose<cr>          " delete current buffer (plugin)
+nnoremap <leader>e  <esc>:qall!<cr>      " close and exit
+nnoremap <leader>v  :source ~/.vimrc<CR> " reload vimrc file
 nnoremap <leader>i  :set list!<cr>       " show special characters
 nnoremap <leader>!  :nohlsearch<cr>      " switch off the current search
-nnoremap <leader>x  :ArgWrap<CR>
 
-nnoremap <CR> gf           " open the current file under cursor with 'enter'
+nnoremap <leader>x  :ArgWrap<CR>         " wrap function arguments
+nnoremap <leader>t  :NERDTreeToggle<cr>  " show nerdtree
+nnoremap <leader>s  :TagbarToggle<CR>    " show tagbar
+nnoremap <leader>q  :call ToggleQuickfixList()<CR>
+nnoremap <leader>g  :silent execute " grep -srnw --binary-files=without-match --exclude-dir=.git . -e " . expand("<cword>") . "  " <bar> redraw!\|cwindow<CR>
 
-nnoremap <F2>  :A<CR>                         " switch between source and header
-nnoremap <F4>  :TagbarToggle<CR>              " show tagbar plugin
-set pastetoggle=<F6>                          " switch on/off paste mode
+nnoremap <CR>  gf           " open the current file under cursor with 'enter'
+nnoremap <F2>  :A<CR>       " switch between source and header
+set pastetoggle=<leader>p       " switch on/off paste mode
+
+nnoremap <c-f>  :CtrlP<CR>           " search buffers and files
+nnoremap <c-n>  :cn<CR>              " move to next error
+nnoremap <c-p>  :cp<CR>              " move to previous error
 
 " Call sudo when editing a readonly file
 cmap w!! %!sudo tee > /dev/null %
@@ -321,5 +338,3 @@ set tags=./tags
 for i in split(glob('~/.vim/tags/*.vim'), '\n')
     exe 'source' i
 endfor
-
-

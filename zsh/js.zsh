@@ -1,5 +1,9 @@
 # NPM packages in homedir. Must be use with "npm install -g"
+# echo "prefix = $NPM_PACKAGES" >> ~/.npmrc
 NPM_PACKAGES=~/packages/js
+
+# This does not work!
+NPM_CONFIG_PREFIX=$NPM_PACKAGES
 
 # Tell our environment about user-installed node tools
 PATH=$NPM_PACKAGES/bin:$PATH

@@ -13,14 +13,8 @@ else
     echo "Unable to find oh-my-zsh installation on $ZSH"
 fi
 
-# User configuration
-export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 export EDITOR='vim'
 export GIT_EDITOR='vim'
-
-# Current account for mutt
-export MAIL="anavarro@achtung.es"
 
 # Aliases
 alias ..='cd ..'
@@ -32,8 +26,8 @@ alias vi='vim'
 alias v='vim'
 alias tmux='TERM=xterm-256color \tmux'
 alias rsync='rsync -azvP'
-
-# Lists folders and files sizes in the current folder
+alias cat="/bin/cat --number"
+alias ack="/usr/bin/ack-grep"
 alias ducks='du -cksh * | sort -rn|head -11'
 
 export OS=`uname`
@@ -61,13 +55,14 @@ fi
 
 if [ "$OS" = "Darwin" ] ; then
     export HOMEBREW_CASK_OPTS="--appdir=/Applications"
-    PATH="/usr/local/bin:$PATH"
 fi
 
 # Local bin folder
 if [ -d ~/bin ]; then
     export PATH=~/bin:$PATH
 fi
+
+export PATH=/usr/local/bin:$PATH
 
 # Load custom zsh files
 for f in $(find ~/.zsh/ -name '*.zsh'); do source $f; done
