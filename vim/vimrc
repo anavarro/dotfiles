@@ -20,9 +20,9 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 Plugin 'gmarik/vundle'                   " vundle
+Plugin 'tpope/vim-fugitive'              " Git integration
 Plugin 'scrooloose/nerdtree'             " file browser
 Plugin 'scrooloose/syntastic'            " languages code checker
-Plugin 'mhinz/vim-signify'               " realtime version control system diff icons
 Plugin 'godlygeek/csapprox'              " using GUI color settings in a terminal
 Plugin 'ctrlpvim/ctrlp.vim'              " full path fuzzy finder
 Plugin 'bling/vim-bufferline'            " manage buffers the way it should be
@@ -33,16 +33,19 @@ Plugin 'yssl/QFEnter'                    " open QuickFix entry in a new buffer
 Plugin 'vim-airline/vim-airline'         " airline plugin
 Plugin 'vim-airline/vim-airline-themes'  " airline themes
 Plugin 'nanotech/jellybeans.vim'         " jellybeans theme
+Plugin 'morhetz/gruvbox'                 " gruvbox
 Plugin 'vim-scripts/a.vim'               " switch between source files and header
 Plugin 'FooSoft/vim-argwrap'             " wrap function arguments
 Plugin 'bronson/vim-trailing-whitespace' " show trailing whitespace
 Plugin 'Valloric/YouCompleteMe'          " multi-language autocomplete
 Plugin 'klen/python-mode'                " python
 Plugin 'fatih/vim-go'                    " golang
-Plugin 'rust-lang/rust.vim'              " rust
-Plugin 'pangloss/vim-javascript'         " javascript
-Plugin 'ternjs/tern_for_vim'
-Plugin 'octol/vim-cpp-enhanced-highlight' " Enhanced C+11 syntax hightlighting
+Plugin 'ternjs/tern_for_vim'              " Tern-based JavaScript
+Plugin 'octol/vim-cpp-enhanced-highlight' " syntax hightlighting for C+11
+Plugin 'tmux-plugins/vim-tmux'            " syntax hightlighting for tmux.conf
+Plugin 'elzr/vim-json'                    " syntax hightlighting for JSON
+Plugin 'airblade/vim-gitgutter'           " Show git diff in the gutter
+Plugin 'ryanoasis/vim-devicons'           " Font icons
 
 " Install plugins the first time vim runs
 if iCanHazVundle == 0
@@ -61,6 +64,7 @@ set nocompatible
 set nobackup
 set noswapfile
 set nomodeline
+set noautochdir
 
 " General Editing Stuff
 set tabstop=4       " Use 4 spaces ident style
@@ -77,6 +81,7 @@ set hidden          " Allow buffer switching without saving
 set ttyfast         " Improves redrawing for newer computers.
 set mouse=a         " Enable mouse
 set mousemodel=extend " right mouse button extends selection
+set encoding=utf8
 
 " Use 'g' flag by default with :s/foo/bar/.
 set gdefault
@@ -121,6 +126,7 @@ set laststatus=2      " always show the status line
 set vb t_vb=          " Turn off bell
 set foldmethod=indent " fold group of lines with the same indent
 set foldlevel=1       " fold one level
+set background=dark
 
 " Sets what is saved when you save a session
 set sessionoptions=blank,buffers,curdir,folds,help,resize,tabpages,winsize
@@ -162,7 +168,7 @@ augroup end
 augroup c_cpp
 au!
 au FileType c,cpp setl comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,bO:///,O://
-au FileType c,cpp nmap <leader>b  <esc>:silent make\|redraw!\|copen<CR>
+au FileType c,cpp nmap <leader>b  <esc>:silent make -j8 -C build_x86\|redraw!\|copen<CR>
 au FileType c,cpp nmap <leader>r  <esc>:w<CR> :!clear<CR> :!./%<<CR>
 augroup end
 
@@ -196,8 +202,7 @@ augroup end
 augroup sh
 au!
 au FileType sh setl noexpandtab  " Use tabs instead of spaces.
-au BufWritePost *.sh :!chmod a+x <afile>
-au BufEnter     *.sh if getline(1) == "" | :call setline(1, "#!/bin/sh")
+au BufEnter *.sh if getline(1) == "" | :call setline(1, "#!/bin/sh")
 augroup end
 
 " Git commits
@@ -237,7 +242,8 @@ let g:pymode_run_bind         = '<leader>r'
 let g:pymode_breakpoint_bind  = '<leader>b'
 
 " Airplane
-let g:airline_theme = 'jellybeans'
+let g:airline_theme = 'gruvbox'
+let g:airline_powerline_fonts = 1
 
 " Bufferline
 let g:bufferline_echo       = 0    " don't automatically echo to the command bar
@@ -259,9 +265,13 @@ let g:syntastic_check_on_wq   = 0
 let g:syntastic_cpp_check_header = 0
 let g:syntastic_cpp_remove_include_errors = 1
 
+" Enhanced C++ Highlight
+" ----------------------
+let g:cpp_class_scope_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+
 " YouCompleteMe
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-let g:ycm_complete_in_comments = 1
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_python_binary_path = '/usr/bin/python'
 
@@ -273,11 +283,6 @@ let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(exe|so|dll)$',
   \ }
-
-" Signify
-let g:signify_vcs_list = [ 'git', 'svn' ]
-
-"inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " NERDTree
 let g:NERDShutUp       = 1  " Silent mode
@@ -302,6 +307,10 @@ nnoremap <down> gj
 " (re)mapping keys
 nnoremap Q  :bp<cr>              " move to previous buffer
 nnoremap W  :bn<cr>              " move to next buffer
+
+"noremap <tab>   :bn<cr>
+"noremap <s-tab> :bp<cr>
+
 nnoremap D  :Bclose!<cr>         " delete current buffer
 nnoremap V  :vsp<cr>             " split buffer vertically
 nnoremap H  :sp<cr>              " split buffer horizontally
@@ -316,7 +325,7 @@ nnoremap <leader>x  :ArgWrap<CR>         " wrap function arguments
 nnoremap <leader>t  :NERDTreeToggle<cr>  " show nerdtree
 nnoremap <leader>s  :TagbarToggle<CR>    " show tagbar
 nnoremap <leader>q  :call ToggleQuickfixList()<CR>
-nnoremap <leader>g  :silent execute " grep -srnw --binary-files=without-match --exclude-dir=.git . -e " . expand("<cword>") . "  " <bar> redraw!\|cwindow<CR>
+nnoremap <leader>g  :silent execute " grep -srnw --binary-files=without-match --exclude-dir=.git --exclude-dir=build_x86 --exclude-dir=build_arm . -e " . expand("<cword>") . "  " <bar> redraw!\|cwindow<CR>
 
 nnoremap <CR>  gf           " open the current file under cursor with 'enter'
 nnoremap <F2>  :A<CR>       " switch between source and header
@@ -329,10 +338,16 @@ nnoremap <c-p>  :cp<CR>              " move to previous error
 " Call sudo when editing a readonly file
 cmap w!! %!sudo tee > /dev/null %
 
-colorscheme jellybeans
+colorscheme gruvbox
+let g:gruvbox_contrast_dark = "hard"
+let g:gruvbox_bold = 1
 
 " Load current tag file
 set tags=./tags
+
+" autostart NERDTree and cursor always starts in main window
+autocmd VimEnter * NERDTree
+autocmd VimEnter * wincmd p
 
 " Load pregenerated tag files from tags folder
 for i in split(glob('~/.vim/tags/*.vim'), '\n')

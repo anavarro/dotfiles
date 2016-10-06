@@ -4,6 +4,7 @@
 
 [core]
     editor = vim
+    excludesfile = ~/.gitignore
 
 [push]
     default = simple
@@ -41,3 +42,5 @@
     co = checkout
     tree = log --graph --oneline --decorate --all
 
+[merge]
+	ff = false
