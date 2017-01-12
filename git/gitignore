@@ -96,10 +96,13 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# Vim swap files 
+# Vim swap files
 *.swp
 
-build_x86
-build_arm
+# dynamic stuff
 *.vscode*
 moc_*
+node_modules
+tags
+*.log
+

@@ -32,20 +32,19 @@ Plugin 'milkypostman/vim-togglelist'     " toggle QuickFix list
 Plugin 'yssl/QFEnter'                    " open QuickFix entry in a new buffer
 Plugin 'vim-airline/vim-airline'         " airline plugin
 Plugin 'vim-airline/vim-airline-themes'  " airline themes
-Plugin 'nanotech/jellybeans.vim'         " jellybeans theme
-Plugin 'morhetz/gruvbox'                 " gruvbox
 Plugin 'vim-scripts/a.vim'               " switch between source files and header
 Plugin 'FooSoft/vim-argwrap'             " wrap function arguments
 Plugin 'bronson/vim-trailing-whitespace' " show trailing whitespace
-Plugin 'Valloric/YouCompleteMe'          " multi-language autocomplete
-Plugin 'klen/python-mode'                " python
-Plugin 'fatih/vim-go'                    " golang
-Plugin 'ternjs/tern_for_vim'              " Tern-based JavaScript
-Plugin 'octol/vim-cpp-enhanced-highlight' " syntax hightlighting for C+11
-Plugin 'tmux-plugins/vim-tmux'            " syntax hightlighting for tmux.conf
-Plugin 'elzr/vim-json'                    " syntax hightlighting for JSON
-Plugin 'airblade/vim-gitgutter'           " Show git diff in the gutter
-Plugin 'ryanoasis/vim-devicons'           " Font icons
+Plugin 'airblade/vim-gitgutter'          " Show git diff in the gutter
+Plugin 'oblitum/YouCompleteMe'           " automcompletion
+Plugin 'ajh17/VimCompletesMe'            " more automcompletion
+Plugin 'nanotech/jellybeans.vim'         " jellybeans theme
+Plugin 'morhetz/gruvbox'                 " gruvbox
+Plugin 'ryanoasis/vim-devicons'          " Font icons
+Plugin 'sheerun/vim-polyglot'            " collection of language packs
+Plugin 'klen/python-mode'                " python mode
+Plugin 'ternjs/tern_for_vim'             " tern-based JavaScript
+
 
 " Install plugins the first time vim runs
 if iCanHazVundle == 0
@@ -77,11 +76,15 @@ set nosmartindent   " Does not the right thing
 set nowrap          " Don't wrap text
 set linebreak       " Wrap at word
 set textwidth=0     " Don't automatically wrap lines.
-set hidden          " Allow buffer switching without saving
+set hidden          " Hide buffers instead of closing them
 set ttyfast         " Improves redrawing for newer computers.
-set mouse=a         " Enable mouse
-set mousemodel=extend " right mouse button extends selection
+set lazyredraw      " Don't redraw during macros
+set colorcolumn=+1  " Show the 81st column
+
+" Encoding
 set encoding=utf8
+set fileencoding=utf-8
+set nobomb
 
 " Use 'g' flag by default with :s/foo/bar/.
 set gdefault
@@ -98,13 +101,20 @@ set wildmenu
 set wildchar=<Tab>
 set wildmode=list:longest,full
 set wildignore+=*.o,*.obj,*.pyc,*.aux,*.bbl,*.blg,.git,.svn,.hg
+set wildignore+=*/build_/*,*/coverage/*,*/dist/*,*/public/*
+set wildignore+=*.log,*.jpg,*.png,*.svg,*.pdf
 set whichwrap=b,s,h,l,<,>,[,]
+
+" Completion
+set complete-=i,t
+set completeopt=longest,menuone
+set omnifunc=syntaxcomplete#Complete
 
 " Searching
 set hlsearch          " highlight search
 set incsearch         " Incremental search, search as you type
-set ignorecase        " Ignore case when searching
-set smartcase         " Ignore case when searching lowercase
+"set ignorecase        " Ignore case when searching
+"set smartcase         " Ignore case when searching lowercase
 set showmatch         " Highlights the matching braces|brackets|parens when the cursor is on a bracket.
 
 " Look & Feel Options
@@ -127,6 +137,7 @@ set vb t_vb=          " Turn off bell
 set foldmethod=indent " fold group of lines with the same indent
 set foldlevel=1       " fold one level
 set background=dark
+set mouse=a
 
 " Sets what is saved when you save a session
 set sessionoptions=blank,buffers,curdir,folds,help,resize,tabpages,winsize
@@ -158,9 +169,10 @@ au! BufNewFile,BufRead *.sql  set syntax=sql
 " Mail
 augroup mail
 au!
-au FileType mail setl spell     " Enable spellchecking.
-au FileType mail setl linebreak " keep paragraphs as single lines
-au FileType mail setl expandtab " Use spaces instead of tabs.
+au FileType mail setl spell        " Enable spellchecking.
+au FileType mail setl spelllang=es " Enable spellchecking.
+au FileType mail setl linebreak    " keep paragraphs as single lines
+au FileType mail setl expandtab    " Use spaces instead of tabs.
 au FileType mail setl wrap
 augroup end
 
@@ -168,8 +180,6 @@ augroup end
 augroup c_cpp
 au!
 au FileType c,cpp setl comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,bO:///,O://
-au FileType c,cpp nmap <leader>b  <esc>:silent make -j8 -C build_x86\|redraw!\|copen<CR>
-au FileType c,cpp nmap <leader>r  <esc>:w<CR> :!clear<CR> :!./%<<CR>
 augroup end
 
 " Javascript
@@ -177,7 +187,7 @@ augroup js
 au!
 au FileType javascript setl shiftwidth=2
 au FileType javascript setl tabstop=2
-au FileType Javascript setl softtabstop=2
+au FileType javascript setl softtabstop=2
 augroup end
 
 " Python
@@ -208,14 +218,16 @@ augroup end
 " Git commits
 augroup gitcommit
 au!
-au FileType gitcommit setl spell     " Enable spellchecking.
-au FileType gitcommit setl expandtab " Use spaces instead of tabs.
+au FileType gitcommit setl spell        " Enable spellchecking.
+au FileType gitcommit setl spelllang=en " Enable spellchecking.
+au FileType gitcommit setl expandtab    " Use spaces instead of tabs.
 augroup end
 
 " Markdown
 augroup markdown
 au!
 au FileType markdown setl spell         " Enable spellchecking.
+au FileType markdown setl spelllang=en  " Enable spellchecking.
 au FileType markdown setl expandtab     " Use spaces instead of tabs.
 au FileType markdown setl tabstop=2     " Lists are indented with 2 spaces.
 au FileType markdown setl softtabstop=2 " Causes backspace to delete 2 spaces.
@@ -247,9 +259,12 @@ let g:airline_powerline_fonts = 1
 
 " Bufferline
 let g:bufferline_echo       = 0    " don't automatically echo to the command bar
-let g:bufferline_show_bufnr = 0    " don't display buffer numbers
+let g:bufferline_show_bufnr = 1    " don't display buffer numbers
 let g:bufferline_modified   = '*'  " symbol to denote that a buffer is modified
 let g:bufferline_rotate     = 0    " no rotate, no scrolling
+let g:bufferline_fname_mod = ':t'
+let g:bufferline_active_buffer_left = '['
+let g:bufferline_active_buffer_right = ']'
 
 " Syntastic
 let g:syntastic_mode = {'mode' : 'passive',
@@ -265,22 +280,18 @@ let g:syntastic_check_on_wq   = 0
 let g:syntastic_cpp_check_header = 0
 let g:syntastic_cpp_remove_include_errors = 1
 
+" YouCompleteMe
+let g:ycm_complete_in_comments = 1
+let g:ycm_confirm_extra_conf = 0
+set completeopt=menu,menuone,longest
+
 " Enhanced C++ Highlight
-" ----------------------
 let g:cpp_class_scope_highlight = 1
 let g:cpp_experimental_template_highlight = 1
 
-" YouCompleteMe
-let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_python_binary_path = '/usr/bin/python'
-
-set completeopt=menu,menuone,longest
-map <leader>d :YcmCompleter GoToDefinitionElseDeclaration<cr>
-
 " CtrlP
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$|build_*',
   \ 'file': '\v\.(exe|so|dll)$',
   \ }
 
@@ -290,37 +301,22 @@ let NERDTreeMinimalUI  = 1  " Minimal UI
 let b:match_ignorecase = 1  " ignore lower/upper case
 let NERDTreeIgnore     = ['\.pyc$', '\.pyo$', '\.o$', '\.so$']
 
-" Navigate windows with meta+arrows
-map  <M-Right>  <c-w>l
-map  <M-Left>   <c-w>h
-map  <M-Up>     <c-w>k
-map  <M-Down>   <c-w>j
-imap <M-Right>  <ESC><c-w>l
-imap <M-Left>   <ESC><c-w>h
-imap <M-Up>     <ESC><c-w>k
-imap <M-Down>   <ESC><c-w>j
-
 " Make cursor move by visual lines instead of file lines (when wrapping)
 nnoremap <up>   gk
 nnoremap <down> gj
 
 " (re)mapping keys
-nnoremap Q  :bp<cr>              " move to previous buffer
-nnoremap W  :bn<cr>              " move to next buffer
+nnoremap <tab>   :bn<cr>
+nnoremap <s-tab> :bp<cr>
 
-"noremap <tab>   :bn<cr>
-"noremap <s-tab> :bp<cr>
-
-nnoremap D  :Bclose!<cr>         " delete current buffer
-nnoremap V  :vsp<cr>             " split buffer vertically
-nnoremap H  :sp<cr>              " split buffer horizontally
-nnoremap C  :<esc><c-w>q<cr>     " delete split buffer
-
+nnoremap <leader>d  :Bclose!<cr>         " delete current buffer
+nnoremap <leader>f  :YcmCompleter GoToDefinitionElseDeclaration<cr>
+nnoremap <leader>v  :vsp<cr>             " split buffer vertically
+nnoremap <leader>h  :sp<cr>              " split buffer horizontally
+nnoremap <leader>c  :<esc><c-w>q<cr>     " delete split buffer
 nnoremap <leader>e  <esc>:qall!<cr>      " close and exit
-nnoremap <leader>v  :source ~/.vimrc<CR> " reload vimrc file
 nnoremap <leader>i  :set list!<cr>       " show special characters
 nnoremap <leader>!  :nohlsearch<cr>      " switch off the current search
-
 nnoremap <leader>x  :ArgWrap<CR>         " wrap function arguments
 nnoremap <leader>t  :NERDTreeToggle<cr>  " show nerdtree
 nnoremap <leader>s  :TagbarToggle<CR>    " show tagbar
@@ -335,21 +331,13 @@ nnoremap <c-f>  :CtrlP<CR>           " search buffers and files
 nnoremap <c-n>  :cn<CR>              " move to next error
 nnoremap <c-p>  :cp<CR>              " move to previous error
 
-" Call sudo when editing a readonly file
+" call sudo when editing a readonly file
 cmap w!! %!sudo tee > /dev/null %
 
+" apply color scheme
 colorscheme gruvbox
-let g:gruvbox_contrast_dark = "hard"
-let g:gruvbox_bold = 1
-
-" Load current tag file
-set tags=./tags
 
 " autostart NERDTree and cursor always starts in main window
 autocmd VimEnter * NERDTree
 autocmd VimEnter * wincmd p
 
-" Load pregenerated tag files from tags folder
-for i in split(glob('~/.vim/tags/*.vim'), '\n')
-    exe 'source' i
-endfor

@@ -1,6 +1,5 @@
 [user]
     name  = Alvaro Navarro
-    email = anavarro@achtung.es
 
 [core]
     editor = vim
@@ -43,4 +42,7 @@
     tree = log --graph --oneline --decorate --all
 
 [merge]
-	ff = false
+    ff = false
+
+[branch]
+	autosetuprebase = always

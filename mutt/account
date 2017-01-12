@@ -1,6 +1,5 @@
 # Personal stuff
 set realname  = "Alvaro Navarro"
-set from      = "anavarro@"
 set sendmail  = '/usr/bin/msmtp'
 
 # Mailbox configuration

@@ -1,6 +1,9 @@
-# specify directory which contains sources for Go projects and their binaries
+# Go directory installation
+export GOROOT=/opt/go
+
+# set directory with sources and binaries for Go projects
 export GOPATH=~/packages/go
 
-# expand PATH with installed binaries
-export PATH=$GOPATH/bin:$PATH
-
+# expand PATH with all Go binaries
+export PATH=$PATH:$GOROOT/bin
+export PATH=$PATH:$GOPATH/bin

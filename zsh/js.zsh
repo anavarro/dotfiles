@@ -2,7 +2,7 @@
 # echo "prefix = $NPM_PACKAGES" >> ~/.npmrc
 NPM_PACKAGES=~/packages/js
 
-# This does not work!
+# FIXME: This does not work!
 NPM_CONFIG_PREFIX=$NPM_PACKAGES
 
 # Tell our environment about user-installed node tools

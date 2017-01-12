@@ -1,0 +1,2 @@
+export GIT_AUTHOR_EMAIL=$EMAIL
+export GIT_EDITOR='vim'
